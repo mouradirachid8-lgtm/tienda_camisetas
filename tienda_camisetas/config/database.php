@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Str;
 
+/*
+        HAY QUE CAMBIAR TODO ESTO PARA CONECTAR LA BD.
+*/
+
 return [
 
     /*
