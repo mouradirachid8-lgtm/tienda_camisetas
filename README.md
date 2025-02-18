@@ -33,10 +33,7 @@
 | GRANT ALL PRIVILEGES ON `laravel_db`.* TO `laravel`@`localhost`                                                |
 +----------------------------------------------------------------------------------------------------------------+    
  ```
-    5. Instalamos dependencias (si no están instaladas):
-    ```sh
-    composer require doctrine/dbal
-    ```
+
 4. Continuamos ejecutando el siguiente comando: 
 ```sh
 composer install
