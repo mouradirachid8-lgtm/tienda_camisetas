@@ -12,23 +12,28 @@
     ```
     2. Creamos la base de datos en MySQL:
     ```sql
-    CREATE DATABASE db_dss;
+    CREATE DATABASE laravel_db;
     ```
-    3. Creamos usuario con permisos de root:
+    3. Creamos usuario con todos los privilegios para laravel:
     ```sql
-    CREATE USER 'root'@'localhost' IDENTIFIED BY 'root_password';
-    GRANT ALL PRIVILEGES ON db_dss.* TO 'root'@'localhost';
+    CREATE USER 'laravel'@'localhost' IDENTIFIED BY 'laravel';
+    GRANT ALL PRIVILEGES ON laravel_db.* TO 'laravel'@'localhost';
     FLUSH PRIVILEGES;
     ```
-    4. Borramos la caché de configuración:
+    4. Nos aseguramos de que el usuario tenga los privilegios
     ```sh
-    php artisan config:clear
-    php artisan cache:clear
+    SHOW GRANTS FOR 'laravel'@'localhost';
     ```
-    5. Instalamos dependencias (si no están instaladas):
-    ```sh
-    composer require doctrine/dbal
-    ```
+    Debería salir algo así:
+```sh
++----------------------------------------------------------------------------------------------------------------+
+| Grants for laravel@localhost                                                                                   |
++----------------------------------------------------------------------------------------------------------------+
+| GRANT USAGE ON *.* TO `laravel`@`localhost` IDENTIFIED BY PASSWORD '*0B05EB232BBAF74D4C57F43AC637C46702E22083' |
+| GRANT ALL PRIVILEGES ON `laravel_db`.* TO `laravel`@`localhost`                                                |
++----------------------------------------------------------------------------------------------------------------+    
+ ```
+
 4. Continuamos ejecutando el siguiente comando: 
 ```sh
 composer install
@@ -37,7 +42,12 @@ composer install
 ```sh
 php artisan key:generate
 ```
-6. Para ejecutar el proyecto. Usad el siguiente comando:
+6. Ejecutamos el siguiente comando para lanzar las migraciones y formar la BD:
+```sh
+php artisan migrate
+```
+
+7. Para ejecutar el proyecto. Usad el siguiente comando:
 ```sh
 php artisan serve
 ```
