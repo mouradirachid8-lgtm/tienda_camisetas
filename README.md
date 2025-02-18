@@ -42,7 +42,12 @@ composer install
 ```sh
 php artisan key:generate
 ```
-6. Para ejecutar el proyecto. Usad el siguiente comando:
+6. Ejecutamos el siguiente comando para lanzar las migraciones y formar la BD:
+```sh
+php artisan migrate
+```
+
+7. Para ejecutar el proyecto. Usad el siguiente comando:
 ```sh
 php artisan serve
 ```
