@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
+        Schema::create('carrito', function (Blueprint $table) {
+            $table->id()->primary();
+            $table->unsignedBigInteger('user_dni'); // Pertenece al ID de un usuario
             $table->timestamps();
+
+            // En tener la tabla de usuario, descomentar esta línea
+            // $table->foreign('user_id')->references('dni')->on('usuario');
         });
     }
 
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('carrito');
     }
 };
