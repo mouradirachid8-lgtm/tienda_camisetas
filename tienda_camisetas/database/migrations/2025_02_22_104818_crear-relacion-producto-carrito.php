@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('producto-carrito', function (Blueprint $table) {
-            $table->id();
+            $table->id();//por ser una tabla de relacion muchos a muchos no se debería utilizar
             $table->unsignedBigInteger('carrito_id');
             $table->unsignedBigInteger('producto_id');
             $table->integer('cantidad')->default(1); // Opcional: para almacenar la cantidad de productos en el carrito
             $table->timestamps();
 
             // Descomentar las siguientes lineas en caso de tener la tabla producto
-            // $table->foreign('carrito_id')->references('id')->on('carrito')->onDelete('cascade');
-            // $table->foreign('producto_id')->references('id')->on('producto')->onDelete('cascade');
+            $table->foreign('carrito_id')->references('id')->on('carrito')->onDelete('cascade');
+            $table->foreign('producto_id')->references('id')->on('producto')->onDelete('cascade');
 
-            // $table->unique(['carrito_id', 'producto_id']); // Para evitar duplicados
+            $table->unique(['carrito_id', 'producto_id']); // Para evitar duplicados
         });
     }
 
