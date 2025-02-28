@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('equipo', function (Blueprint $table) {
-            $table->id()->primary(); // Esta ID es autoincremental
+            $table->id(); // Esta ID es autoincremental
             $table->string('nombre', 50);
             $table->string('pais', 50);
             $table->timestamps(); // Puedes quitar esta línea si no necesitas los timestamps

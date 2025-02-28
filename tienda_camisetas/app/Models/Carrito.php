@@ -7,8 +7,8 @@ class Carrito extends Model
 {
     public function productos()
     {
-        // Descomentar en tener la tabla producto
-        // return $this->belongsToMany(Producto::class)->withPivot('cantidad');
+        
+        return $this->belongsToMany(Producto::class)->withPivot('cantidad');
     }
 }
 
