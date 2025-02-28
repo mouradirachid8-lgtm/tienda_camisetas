@@ -12,7 +12,7 @@ class Carrito extends Model
     ];
     
     // Relación con usuario
-    public function usuario()
+    public function usuario() // Nota: en singular, no "usuarios"
     {
         return $this->belongsTo(User::class, 'user_dni', 'dni');
     }
