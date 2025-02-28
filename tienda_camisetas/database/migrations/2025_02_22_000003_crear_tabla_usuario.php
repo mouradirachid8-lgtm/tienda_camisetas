@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('usuarios', function (Blueprint $table) {
-            $table->string('DNI')->primary();
+            $table->string('dni')->primary(); // Changed to lowercase to match reference
             $table->string('nombre');
             $table->string('apellidos');
             $table->string('email')->unique(); 

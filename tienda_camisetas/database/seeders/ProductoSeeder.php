@@ -26,6 +26,7 @@ class ProductoSeeder extends Seeder
                 'imagen' => 'barcelona.jpg',
                 'equipo_id' => 1,
                 'proveedor_id' => 1,
+                'created_at' => now(), 'updated_at' => now(),
             ],
             [
                 'nombre' => 'Camiseta Oficial Real Madrid',
@@ -39,6 +40,7 @@ class ProductoSeeder extends Seeder
                 'imagen' => 'realmadrid.jpg',
                 'equipo_id' => 2,
                 'proveedor_id' => 2,
+                'created_at' => now(), 'updated_at' => now(),
             ]
         ]);
     }

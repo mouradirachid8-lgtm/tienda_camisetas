@@ -1,32 +1,67 @@
 <?php
-
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * La tabla asociada con el modelo.
      *
-     * @var list<string>
+     * @var string
+     */
+    protected $table = 'usuarios';
+
+    /**
+     * La clave primaria asociada con la tabla.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'DNI';
+
+    /**
+     * Indica si la clave primaria es autoincremental.
+     *
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
+     * El tipo de dato de la clave primaria.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    /**
+     * Los atributos que son asignables masivamente.
+     *
+     * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'DNI',
+        'nombre',
+        'apellidos',
         'email',
-        'password',
+        'telefono',
+        'pais',
+        'localidad',
+        'direccion',
+        'modo_pago',
+        'fecha_registrado',
+        'puntos_fidelidad',
+        'admin',
+        'password', // Asumiendo que necesitas una contraseña aunque no esté en la migración
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
+     * Los atributos que deben estar ocultos para la serialización.
      *
-     * @var list<string>
+     * @var array<int, string>
      */
     protected $hidden = [
         'password',
@@ -34,15 +69,23 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * Los atributos que deben ser convertidos.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
+    protected $casts = [
+        'fecha_registrado' => 'date',
+        'puntos_fidelidad' => 'integer',
+        'admin' => 'boolean',
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    /**
+     * Obtener el carrito del usuario.
+     */
+    public function carrito()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasOne(Carrito::class, 'user_dni', 'DNI');
     }
 }

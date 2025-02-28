@@ -17,8 +17,8 @@ class EquipoSeeder extends Seeder
         DB::table('equipo')->delete();
 
         DB::table('equipo')->insert([
-            ['id' => 1, 'nombre' => 'FC Barcelona', 'pais' => 'España'],
-            ['id' => 2, 'nombre' => 'Real Madrid', 'pais' => 'España'],
+            ['id' => 1, 'nombre' => 'FC Barcelona', 'pais' => 'España', 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 2, 'nombre' => 'Real Madrid', 'pais' => 'España', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }

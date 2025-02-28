@@ -15,11 +15,11 @@ class ProveedorSeeder extends Seeder
     {
         //para que seeder funcione sin errores de clave duplicada
         DB::table('proveedor')->updateOrInsert(
-            ['id' => 1], ['nombre' => 'Nike']
+            ['id' => 1], ['nombre' => 'Nike', 'created_at' => now(), 'updated_at' => now(),]
         );
 
         DB::table('proveedor')->updateOrInsert(
-            ['id' => 2], ['nombre' => 'Adidas']
+            ['id' => 2], ['nombre' => 'Adidas', 'created_at' => now(), 'updated_at' => now(),]
         );
     }
 }
