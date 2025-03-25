@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('carrito', function (Blueprint $table) {
-            $table->id()->primary();
-            $table->unsignedBigInteger('user_dni'); // Pertenece al ID de un usuario
+            $table->id();
+            $table->string('user_dni'); // Changed to string to match the 'dni' column in 'usuarios'
             $table->timestamps();
 
-            // En tener la tabla de usuario, descomentar esta línea
-            // $table->foreign('user_id')->references('dni')->on('usuario');
+            // Foreign key constraint
+            $table->foreign('user_dni')->references('dni')->on('usuarios');
         });
     }
 
