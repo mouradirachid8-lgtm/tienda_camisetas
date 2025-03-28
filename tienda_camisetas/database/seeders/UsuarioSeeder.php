@@ -15,7 +15,7 @@ class UsuariosTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('usuarios')->insert([
+        DB::table('usuario')->insert([
             [
                 'DNI' => '80464283C',
                 'nombre' => 'Cristiano',

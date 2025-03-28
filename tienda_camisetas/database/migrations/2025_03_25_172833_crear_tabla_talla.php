@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carrito', function (Blueprint $table) {
+        Schema::create('talla', function (Blueprint $table) {
             $table->id();
-            $table->string('user_dni'); // Changed to string to match the 'dni' column in 'usuarios'
-            $table->float('precio_total')->default(0);
+            $table->string('nombre');
             $table->timestamps();
-
-            // Foreign key constraint
-            $table->foreign('user_dni')->references('dni')->on('usuario');
         });
     }
 
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carrito');
+        Schema::dropIfExists('talla');
     }
 };
