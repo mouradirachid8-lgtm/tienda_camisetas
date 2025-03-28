@@ -14,7 +14,7 @@ class User extends Authenticatable
      *
      * @var string
      */
-    protected $table = 'usuarios';
+    protected $table = 'usuario';
 
     /**
      * La clave primaria asociada con la tabla.

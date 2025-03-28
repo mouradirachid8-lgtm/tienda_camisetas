@@ -19,7 +19,8 @@ class Producto extends Model
         'descuento',
         'imagen',
         'equipo_id',
-        'proveedor_id'
+        'proveedor_id',
+        'talla_id'
     ];
     
     // Relación con Equipo (muchos productos pertenecen a un equipo)
@@ -32,6 +33,11 @@ class Producto extends Model
     public function proveedor()
     {
         return $this->belongsTo(Proveedor::class, 'proveedor_id');
+    }
+
+    public function talla()
+    {
+        return $this->belongsTo(Proveedor::class, 'talla_id');
     }
     
     // Relación muchos a muchos con Carrito
