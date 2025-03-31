@@ -9,70 +9,19 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /**
-     * La tabla asociada con el modelo.
-     *
-     * @var string
-     */
     protected $table = 'usuario';
-
-    /**
-     * La clave primaria asociada con la tabla.
-     *
-     * @var string
-     */
     protected $primaryKey = 'DNI';
-
-    /**
-     * Indica si la clave primaria es autoincremental.
-     *
-     * @var bool
-     */
     public $incrementing = false;
-
-    /**
-     * El tipo de dato de la clave primaria.
-     *
-     * @var string
-     */
     protected $keyType = 'string';
 
-    /**
-     * Los atributos que son asignables masivamente.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
-        'DNI',
-        'nombre',
-        'apellidos',
-        'email',
-        'telefono',
-        'pais',
-        'localidad',
-        'direccion',
-        'modo_pago',
-        'fecha_registrado',
-        'puntos_fidelidad',
-        'admin',
-        'password', // Asumiendo que necesitas una contraseña aunque no esté en la migración
+        'DNI', 'nombre', 'apellidos', 'email', 'telefono', 'pais',
+        'localidad', 'direccion', 'modo_pago', 'fecha_registrado',
+        'puntos_fidelidad', 'admin', 'password'
     ];
 
-    /**
-     * Los atributos que deben estar ocultos para la serialización.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
-    /**
-     * Los atributos que deben ser convertidos.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'fecha_registrado' => 'date',
         'puntos_fidelidad' => 'integer',
@@ -81,11 +30,30 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    /**
-     * Obtener el carrito del usuario.
-     */
     public function carrito()
     {
         return $this->hasOne(Carrito::class, 'user_dni', 'DNI');
     }
+
+    // Métodos adicionales
+    public function getDNI(): string { return $this->DNI; }
+    public function getNombre(): string { return $this->nombre; }
+    public function getApellidos(): string { return $this->apellidos; }
+    public function getEMAIL(): string { return $this->email; }
+    public function getTelefono(): string { return $this->telefono; }
+    public function getDireccion(): string { return $this->direccion; }
+    public function getModoPago(): string { return $this->modo_pago; }
+    public function getFecha(): string { return $this->fecha_registrado; }
+    public function getPuntosFidelidad(): int { return $this->puntos_fidelidad; }
+    public function getPassword(): string { return $this->password; }
+
+    public function setDNI(string $dni): void { $this->DNI = $dni; }
+    public function setNombre(string $nombre): void { $this->nombre = $nombre; }
+    public function setApellidos(string $apellidos): void { $this->apellidos = $apellidos; }
+    public function setEMAIL(string $email): void { $this->email = $email; }
+    public function setTelefono(string $telefono): void { $this->telefono = $telefono; }
+    public function setDireccion(string $direccion): void { $this->direccion = $direccion; }
+    public function setModoPago(string $pago): void { $this->modo_pago = $pago; }
+    public function setPuntosFidelidad(int $puntos): void { $this->puntos_fidelidad = $puntos; }
+    public function setPassword(string $pass): void { $this->password = bcrypt($pass); }
 }

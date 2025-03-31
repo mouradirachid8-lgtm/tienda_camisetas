@@ -17,7 +17,8 @@ class AdministradorController extends Controller
         $productos = Producto::all();
         $equipos = Equipo::all();
         $tallas = Talla::all();
-        return view('administrador', compact('productos', 'equipos', 'tallas'));
+        $proveedores = Proveedor::all();
+        return view('administrador', compact('productos', 'equipos', 'tallas', 'proveedores'));
     }
 
     // Método para editar un producto
@@ -79,12 +80,12 @@ class AdministradorController extends Controller
         return redirect()->back()->with('success', 'Producto eliminado correctamente.');
     }
 
-    public function añadirProducto(Request $request)
+    public function crearProducto(Request $request)
     {
         // Validación de los datos
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'talla_id' => 'required|exists:tallas,id',
+            'talla_id' => 'required|exists:talla,id',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'color' => 'required|string|max:100',
@@ -92,18 +93,27 @@ class AdministradorController extends Controller
             'material' => 'required|string|max:255',
             'descuento' => 'nullable|numeric|min:0|max:100',
             'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'equipo_id' => 'required|exists:equipos,id',
-            'proveedor_id' => 'required|exists:proveedores,id',
+            'equipo_id' => 'required|exists:equipo,id',
+            'proveedor_id' => 'required|exists:proveedor,id',
         ]);
 
-        // Manejo de la imagen
-        $imagenPath = null;
+        $rutaImagen = null;
+
+        // Guardar la imagen con su nombre original si se sube
         if ($request->hasFile('imagen')) {
-            $imagenPath = $request->file('imagen')->store('productos', 'public');
+            $file = $request->file('imagen');
+            $nombreArchivo = $file->getClientOriginalName(); // Obtiene el nombre original
+            $rutaDestino = 'images/'; // Carpeta dentro de public/
+
+            // Mover el archivo a la carpeta public/productos con su nombre original
+            $file->move(public_path($rutaDestino), $nombreArchivo);
+
+            // Guardar la ruta relativa en la base de datos
+            $rutaImagen = $rutaDestino . $nombreArchivo;
         }
 
-        // Creación del producto
-        $producto = Producto::create([
+        // Crear el producto
+        Producto::create([
             'nombre' => $request->nombre,
             'talla_id' => $request->talla_id,
             'precio' => $request->precio,
@@ -112,12 +122,12 @@ class AdministradorController extends Controller
             'temporada' => $request->temporada,
             'material' => $request->material,
             'descuento' => $request->descuento,
-            'imagen' => $imagenPath,
+            'imagen' => $rutaImagen,
             'equipo_id' => $request->equipo_id,
             'proveedor_id' => $request->proveedor_id,
         ]);
 
-        return redirect()->route('admin.productos')->with('success', 'Producto añadido exitosamente.');
+        return redirect()->route('administrador')->with('success', 'Producto añadido exitosamente.');
     }
 
 }

@@ -71,10 +71,10 @@ if ($seccion == 'productos' && $editarId) {
                             </select>
 
                             <label class="block mb-2 font-bold">Precio</label>
-                            <input type="number" name="precio" value="<?= $productoEditar->precio ?>" class="w-full px-4 py-2 border rounded mb-4">
+                            <input type="number" name="precio" value="<?= $productoEditar->getPrecio() ?>" class="w-full px-4 py-2 border rounded mb-4">
                             
                             <label class="block mb-2 font-bold">Stock</label>
-                            <input type="number" name="stock" value="<?= $productoEditar->stock ?>" class="w-full px-4 py-2 border rounded mb-4">
+                            <input type="number" name="stock" value="<?= $productoEditar->getStock() ?>" class="w-full px-4 py-2 border rounded mb-4">
                             
                             <label class="block mb-2 font-bold">Color</label>
                             <input type="text" name="color" value="<?= $productoEditar->color ?>" class="w-full px-4 py-2 border rounded mb-4">
@@ -83,10 +83,10 @@ if ($seccion == 'productos' && $editarId) {
                             <input type="text" name="temporada" value="<?= $productoEditar->temporada ?>" class="w-full px-4 py-2 border rounded mb-4">
                             
                             <label class="block mb-2 font-bold">Material</label>
-                            <input type="text" name="material" value="<?= $productoEditar->material ?>" class="w-full px-4 py-2 border rounded mb-4">
+                            <input type="text" name="material" value="<?= $productoEditar->materiaL?>" class="w-full px-4 py-2 border rounded mb-4">
                             
                             <label class="block mb-2 font-bold">Descuento (%)</label>
-                            <input type="number" name="descuento" value="<?= $productoEditar->descuento ?>" class="w-full px-4 py-2 border rounded mb-4">
+                            <input type="number" name="descuento" value="<?= $productoEditar->getDescuento() ?>" class="w-full px-4 py-2 border rounded mb-4">
                             
                             <label class="block mb-2 font-bold">Imagen Actual</label>
                             <img src="<?= asset($productoEditar->imagen) ?>" alt="Imagen del producto" class="w-32 h-32 object-cover rounded mb-4">
@@ -95,10 +95,10 @@ if ($seccion == 'productos' && $editarId) {
                             <input type="file" name="imagen" class="w-full px-4 py-2 border rounded mb-4">
                             
                             <label class="block mb-2 font-bold">Equipo</label>
-                            <input type="text" name="equipo_nombre" value="<?= $productoEditar->equipo->nombre ?? '' ?>" class="w-full px-4 py-2 border rounded mb-4">
+                            <input type="text" name="equipo_nombre" value="<?= $productoEditar->equipo->getNombre() ?? '' ?>" class="w-full px-4 py-2 border rounded mb-4">
 
                             <label class="block mb-2 font-bold">Proveedor</label>
-                            <input type="text" name="proveedor_nombre" value="<?= $productoEditar->proveedor->nombre ?? '' ?>" class="w-full px-4 py-2 border rounded mb-4">
+                            <input type="text" name="proveedor_nombre" value="<?= $productoEditar->proveedor->getNombre() ?? '' ?>" class="w-full px-4 py-2 border rounded mb-4">
                             
                             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Guardar Cambios</button>
                             <a href="?seccion=productos" class="bg-gray-500 text-white px-4 py-2 rounded ml-2">Cancelar</a>
@@ -112,33 +112,71 @@ if ($seccion == 'productos' && $editarId) {
                         <h2 class="text-xl font-bold mb-4">Añadir Producto</h2>
                         <form action="<?= route('admin.crearProducto') ?>" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+
                             <label class="block mb-2 font-bold">Nombre del Producto</label>
                             <input type="text" name="nombre" class="w-full px-4 py-2 border rounded mb-4" required>
-                            
+
                             <label class="block mb-2 font-bold">Precio</label>
-                            <input type="number" name="precio" class="w-full px-4 py-2 border rounded mb-4" required>
-                            
+                            <input type="number" name="precio" step="0.01" class="w-full px-4 py-2 border rounded mb-4" required>
+
                             <label class="block mb-2 font-bold">Stock</label>
                             <input type="number" name="stock" class="w-full px-4 py-2 border rounded mb-4" required>
-                            
+
+                            <label class="block mb-2 font-bold">Color</label>
+                            <input type="text" name="color" class="w-full px-4 py-2 border rounded mb-4">
+
+                            <label class="block mb-2 font-bold">Temporada</label>
+                            <input type="text" name="temporada" class="w-full px-4 py-2 border rounded mb-4">
+
+                            <label class="block mb-2 font-bold">Material</label>
+                            <input type="text" name="material" class="w-full px-4 py-2 border rounded mb-4">
+
+                            <label class="block mb-2 font-bold">Descuento (%)</label>
+                            <input type="number" name="descuento" min="0" max="100" class="w-full px-4 py-2 border rounded mb-4">
+
                             <label class="block mb-2 font-bold">Imagen</label>
                             <input type="file" name="imagen" class="w-full px-4 py-2 border rounded mb-4">
-                            
+
+                            <label class="block mb-2 font-bold">Equipo</label>
+                            <select name="equipo_id" class="w-full px-4 py-2 border rounded mb-4">
+                                <option value="">Selecciona un equipo</option>
+                                <?php foreach ($equipos as $equipo): ?>
+                                    <option value="<?= $equipo->id ?>"><?= $equipo->nombre ?></option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <label class="block mb-2 font-bold">Proveedor</label>
+                            <select name="proveedor_id" class="w-full px-4 py-2 border rounded mb-4">
+                                <option value="">Selecciona un proveedor</option>
+                                <?php foreach ($proveedores as $proveedor): ?>
+                                    <option value="<?= $proveedor->id ?>"><?= $proveedor->nombre ?></option>
+                                <?php endforeach; ?>
+                            </select>
+
+                            <label class="block mb-2 font-bold">Talla</label>
+                            <select name="talla_id" class="w-full px-4 py-2 border rounded mb-4">
+                                <option value="">Selecciona una talla</option>
+                                <?php foreach ($tallas as $talla): ?>
+                                    <option value="<?= $talla->id ?>"><?= $talla->nombre ?></option>
+                                <?php endforeach; ?>
+                            </select>
+
                             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Añadir Producto</button>
                         </form>
                     </div>
+
 
                     <!-- Listado de productos -->
                     <div class="max-w-7xl mx-auto p-6 space-y-4">
                         <?php foreach ($productos as $producto): ?>
                             <div class="flex items-center bg-white p-4 shadow rounded-lg">
                                 <img class="w-20 h-20 object-cover rounded-lg" src="<?= asset($producto->imagen) ?>" alt="<?= $producto->nombre ?>">
-                                <h2 class="text-xl font-bold ml-4"><?= $producto->nombre ?></h2>
+                                <h2 class="text-xl font-bold ml-4"><?= $producto->getNombre() ?></h2>
                                 <div class="ml-auto flex space-x-2">
-                                    <a href="?seccion=productos&editar=<?= $producto->id ?>" class="bg-green-500 text-white px-4 py-2 rounded">Editar</a>
+                                    <a href="?seccion=productos&editar=<?= $producto->getID() ?>" class="bg-green-500 text-white px-4 py-2 rounded">Editar</a>
 
                                     <!-- Formulario para eliminar -->
-                                    <form action="<?= route('admin.eliminarProducto', $producto->id) ?>" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');">
+                                    <form action="<?= route('admin.eliminarProducto', $producto->getID()) ?>" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este producto?');">
                                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>
