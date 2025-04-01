@@ -2,13 +2,12 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 
-class UsuariosTableSeeder extends Seeder
+class UsuarioSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,9 +17,9 @@ class UsuariosTableSeeder extends Seeder
         DB::table('usuario')->insert([
             [
                 'DNI' => '80464283C',
-                'nombre' => 'Cristiano',
-                'apellidos' => 'Ronaldo Dos Santos Aveiro',
-                'email' => 'cr7_elbicho7@gmail.com',
+                'nombre' => 'Admin',
+                'apellidos' => 'Administrador',
+                'email' => 'admin7@gmail.com',
                 'telefono' => '612270152',
                 'pais' => 'Portugal',
                 'localidad' => 'Madeira',
@@ -28,31 +27,16 @@ class UsuariosTableSeeder extends Seeder
                 'modo_pago' => 'Tarjeta de crédito',
                 'fecha_registrado' => Carbon::now()->subDays(30)->toDateString(),
                 'puntos_fidelidad' => 100,
+                'password' => Hash::make('admin'), // 🔹 Cifra la contraseña aquí
                 'admin' => true,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'DNI' => '87654321B',
-                'nombre' => 'Ana',
-                'apellidos' => 'Draghia López',
-                'email' => 'analopez_draghia9@gmail.com',
-                'telefono' => '987654321',
-                'pais' => 'Rumania',
-                'localidad' => 'Bucarest',
-                'direccion' => 'Avenida Diagonal, 9999',
-                'modo_pago' => 'PayPal',
-                'fecha_registrado' => Carbon::now()->subDays(15)->toDateString(),
-                'puntos_fidelidad' => 0,
-                'admin' => false,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
                 'DNI' => '11223344C',
-                'nombre' => 'Carlos',
-                'apellidos' => 'Martínez Ruiz',
-                'email' => 'carlos.martinez@example.com',
+                'nombre' => 'user1',
+                'apellidos' => 'usuario',
+                'email' => 'user1@example.com',
                 'telefono' => '654321987',
                 'pais' => 'México',
                 'localidad' => 'CDMX',
@@ -60,6 +44,7 @@ class UsuariosTableSeeder extends Seeder
                 'modo_pago' => 'Efectivo',
                 'fecha_registrado' => Carbon::now()->subDays(5)->toDateString(),
                 'puntos_fidelidad' => 50,
+                'password' => Hash::make('user1'), // 🔹 Cifra la contraseña aquí
                 'admin' => false,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -67,5 +52,3 @@ class UsuariosTableSeeder extends Seeder
         ]);
     }
 }
-
-?>

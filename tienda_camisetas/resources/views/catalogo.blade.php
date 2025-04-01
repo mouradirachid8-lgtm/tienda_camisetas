@@ -15,6 +15,7 @@
     </script>
 </head>
 <body>
+    <p>Bienvenido, {{ session('usuarioGlobal')->email ?? 'Invitado' }}</p>
     <header class="bg-blue-900 shadow-lg shadow-blue-500/50 px-4 py-7">
         <div class="max-w-7xl mx-auto flex justify-between items-center space-x-6 relative">
             
@@ -48,10 +49,19 @@
                     <i class="fas fa-shopping-cart text-white"></i> 
                     <span>Tu carro</span>
                 </a>
-                <a href="{{ route('login') }}" class="flex items-center space-x-2 text-orange-500 hover:text-orange-700">
-                    <i class="fa fa-sign-in-alt"></i>
-                    <span>Iniciar Sesión</span>
-                </a>
+                @if (session('usuarioGlobal'))
+                    <!-- Si está autenticado, mostrar Cerrar Sesión -->
+                    <a href="{{ route('logout') }}" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
+                        <i class="fa fa-sign-out-alt"></i>
+                        <span>Cerrar Sesión</span>
+                    </a>
+                @else
+                    <!-- Si no ha iniciado sesión, mostrar "Iniciar Sesión" -->
+                    <a href="{{ route('login') }}" class="flex items-center space-x-2 text-orange-500 hover:text-orange-700">
+                        <i class="fa fa-sign-in-alt"></i>
+                        <span>Iniciar Sesión</span>
+                    </a>
+                @endif
             </div>
         </div>
     </header>
@@ -166,7 +176,13 @@
                 <h2 class="text-xl font-bold text-blue-50 mt-2">{{ $producto->nombre }}</h2>
                 <p class="text-lg font-semibold text-red-600 bg-yellow-200 p-2 inline-block rounded-lg">${{ $producto->precio }}</p>
                 <p class="text-sm text-gray-600">Descuento: <span class="font-semibold">{{ $producto->descuento }}%</span></p>
-                <button class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">Agregar al carro</button>
+                <form action="{{ route('carro.agregar') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                    <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+                        Agregar al carro
+                    </button>
+                </form>
             </a>
         @endforeach
     </div>

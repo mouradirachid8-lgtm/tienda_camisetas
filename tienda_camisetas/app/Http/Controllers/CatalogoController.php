@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 
 class CatalogoController extends Controller
 {
-    public function base_data()
+    public function index()
     {
-        // Obtener productos desde la base de datos
-        $productos = Producto::all(); // O puedes usar DB::table()
+        $productos = Producto::all(); 
         $equipos = Equipo::all();
 
         // Pasar los productos a la vista
