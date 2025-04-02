@@ -13,35 +13,47 @@ class ProductoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('producto')->insert([
-            [
-                'nombre' => 'Camiseta Oficial FC Barcelona',
-                'talla' => 'M',
-                'precio' => 89.99,
-                'stock' => 50,
-                'color' => 'Azul y Rojo',
-                'temporada' => '2023-2024',
-                'material' => 'Poliéster',
-                'descuento' => 10,
-                'imagen' => 'barcelona.jpg',
-                'equipo_id' => 1,
-                'proveedor_id' => 1,
-                'created_at' => now(), 'updated_at' => now(),
-            ],
-            [
-                'nombre' => 'Camiseta Oficial Real Madrid',
-                'talla' => 'L',
-                'precio' => 95.50,
-                'stock' => 30,
-                'color' => 'Blanco',
-                'temporada' => '2023-2024',
-                'material' => 'Poliéster',
-                'descuento' => 5,
-                'imagen' => 'realmadrid.jpg',
-                'equipo_id' => 2,
-                'proveedor_id' => 2,
-                'created_at' => now(), 'updated_at' => now(),
-            ]
-        ]);
+        $teams = [
+            ['carpeta' => 'arsenal', 'color' => 'rojo y blanco', 'name' => 'Arsenal', 'id' => 8],
+            ['carpeta' => 'barca', 'color' => 'azul y rojo', 'name' => 'FC Barcelona', 'id' => 2],
+            ['carpeta' => 'madrid', 'color' => 'blanco', 'name' => 'Real Madrid', 'id' => 1],
+            ['carpeta' => 'av', 'color' => 'morado y azul', 'name' => 'Aston Villa', 'id' => 3],
+            ['carpeta' => 'bvb', 'color' => 'amarillo y negro', 'name' => 'Dortmund', 'id' => 7],
+            ['carpeta' => 'bayern', 'color' => 'rojo y blanco', 'name' => 'Bayern Munchen', 'id' => 4],
+            ['carpeta' => 'psg', 'color' => 'azul', 'name' => 'PSG', 'id' => 6],
+            ['carpeta' => 'inter', 'color' => 'azul y negro', 'name' => 'Inter Milan', 'id' => 5],
+        ];
+
+        // Crear el array con los valores
+        $materiales = [
+            "Algodón",
+            "Poliéster",
+            "Nylon",
+            "Elastano",
+            "Rayón"
+        ];
+
+        foreach ($teams as ['carpeta' => $c, 'color' => $color, 'name' => $team, 'id' => $id]) {
+            for ($i = 1; $i <= 10; $i++) { 
+                $year1 = 2025 - $i;
+                $year2 = $year1 + 1;
+                $temporada = "$year1-$year2";
+
+                DB::table('producto')->insert([
+                    'nombre' => "Camiseta $team",
+                    'precio' => rand(50, 150),
+                    'stock' => rand(10, 100),
+                    'color' => $color,
+                    'temporada' => $temporada,
+                    'material' => $materiales[array_rand($materiales)],
+                    'imagen' => "images/$c/$c$i.jpg",
+                    'talla_id' => 1,
+                    'equipo_id' => $id,
+                    'proveedor_id' => rand(1, 8),
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
     }
 }

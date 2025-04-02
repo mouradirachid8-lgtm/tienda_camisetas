@@ -14,12 +14,15 @@ class ProveedorSeeder extends Seeder
     public function run(): void
     {
         //para que seeder funcione sin errores de clave duplicada
-        DB::table('proveedor')->updateOrInsert(
-            ['id' => 1], ['nombre' => 'Nike', 'created_at' => now(), 'updated_at' => now(),]
-        );
-
-        DB::table('proveedor')->updateOrInsert(
-            ['id' => 2], ['nombre' => 'Adidas', 'created_at' => now(), 'updated_at' => now(),]
-        );
+        DB::table('proveedor')->insert([
+            ['nombre' => 'Nike', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Adidas', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Puma', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Under Armour', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'New Balance', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Kappa', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Umbro', 'created_at' => now(), 'updated_at' => now()],
+            ['nombre' => 'Reebok', 'created_at' => now(), 'updated_at' => now()],
+        ]);
     }
 }

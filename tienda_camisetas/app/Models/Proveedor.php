@@ -23,6 +23,9 @@ class Proveedor extends Model
     // Método setter para el nombre (del diagrama UML)
     public function setNombre(string $nombre): void
     {
+        if (empty(trim($nombre))) {
+            throw new \InvalidArgumentException("El nombre no puede estar vacío.");
+        }
         $this->nombre = $nombre;
     }
     
