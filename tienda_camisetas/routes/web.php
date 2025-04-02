@@ -20,10 +20,14 @@ Route::get('/carro', function () {
     return view('carro');
 })->name('carro');
 
-Route::get('/administrador', [AdministradorController::class, 'base_data'])->name('administrador');
-Route::post('/administrador/productos/editar/{id}', [AdministradorController::class, 'actualizarProducto'])->name('admin.actualizarProducto');
+Route::get('/administrador', [AdministradorController::class, 'index'])->name('administrador');
+Route::put('/administrador/productos/editar/{id}', [AdministradorController::class, 'actualizarProducto'])->name('admin.actualizarProducto');
 Route::delete('/administrador/productos/eliminar/{id}', [AdministradorController::class, 'eliminarProducto'])->name('admin.eliminarProducto');
 Route::post('/administrador/productos/crear', [AdministradorController::class, 'crearProducto'])->name('admin.crearProducto'); 
+
+Route::post('/administrador/proveedores', [AdministradorController::class, 'crearProveedor'])->name('admin.crearProveedor');
+Route::put('/administrador/proveedores/{id}', [AdministradorController::class, 'actualizarProveedor'])->name('admin.actualizarProveedor');
+Route::delete('/administrador/proveedores/{id}', [AdministradorController::class, 'eliminarProveedor'])->name('admin.eliminarProveedor');
 
 Route::get('/catalogo', [PaginacionController::class, 'index'])->name('catalogo');
 Route::get('/catalogo/buscar', [CatalogoController::class, 'search_request'])->name('catalogo.buscar');
@@ -31,15 +35,15 @@ Route::get('/catalogo/filtrar', [CatalogoController::class, 'filtrarProductos'])
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.auth');
-//Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('login');
 
-Route::post('/carro/agregar', [CarroController::class, 'agregarAlCarrito'])->name('carro.agregar');
-Route::delete('/carro/eliminar/{id}', [CarroController::class, 'eliminarDelCarrito'])->name('carro.eliminar');
-Route::get('/carro', [CarroController::class, 'mostrarCarrito'])->name('carro.mostrar');
+//Route::post('/carro/agregar', [CarroController::class, 'agregarAlCarrito'])->name('carro.agregar');
+//Route::delete('/carro/eliminar/{id}', [CarroController::class, 'eliminarDelCarrito'])->name('carro.eliminar');
+//Route::get('/carro', [CarroController::class, 'mostrarCarrito'])->name('carro.mostrar');
 
 Route::get('/logout', function () {
     Auth::logout();
     session()->invalidate(); // Invalidar sesión
     session()->regenerateToken(); // Evitar problemas de seguridad
-    return redirect('/'); // Redirigir a la página de inicio
+    return redirect('/login'); // Redirigir a la página de inicio
 })->name('logout');

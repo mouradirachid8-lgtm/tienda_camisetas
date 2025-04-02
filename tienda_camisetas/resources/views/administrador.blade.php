@@ -1,6 +1,6 @@
 <?php
 $seccion = $_GET['seccion'] ?? 'usuarios'; // Sección por defecto
-$panelAcciones = in_array($seccion, ['usuarios', 'productos', 'pedidos']);
+$panelAcciones = in_array($seccion, ['usuarios', 'productos', 'pedidos', 'proveedores']);
 $editarId = $_GET['editar'] ?? null;
 $productoEditar = null;
 
@@ -14,6 +14,7 @@ if ($seccion == 'productos' && $editarId) {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="es">
@@ -34,8 +35,10 @@ if ($seccion == 'productos' && $editarId) {
             <nav>
                 <ul>
                     <li class="mb-3"><a href="?seccion=usuarios" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Usuarios</a></li>
+                    <li class="mb-3"><a href="?seccion=proveedores" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Proveedores</a></li>
+                    <li class="mb-3"><a href="?seccion=equipos" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Equipos</a></li>
                     <li class="mb-3"><a href="?seccion=productos" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Productos</a></li>
-                    <li class="mb-3"><a href="?seccion=pedidos" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Pedidos</a></li>
+                    <li class="mb-3"><a href="?seccion=carritos" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Carritos</a></li>
                     <li class="mb-3"><a href="?seccion=configuracion" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Configuración</a></li>
                 </ul>
             </nav>
@@ -105,7 +108,6 @@ if ($seccion == 'productos' && $editarId) {
                         </form>
                     </div>
 
-
                 <?php else: ?>
                     <!-- Formulario para añadir un producto -->
                     <div class="max-w-3xl mx-auto bg-white p-6 shadow rounded mb-6">
@@ -165,7 +167,6 @@ if ($seccion == 'productos' && $editarId) {
                         </form>
                     </div>
 
-
                     <!-- Listado de productos -->
                     <div class="max-w-7xl mx-auto p-6 space-y-4">
                         <?php foreach ($productos as $producto): ?>
@@ -186,20 +187,84 @@ if ($seccion == 'productos' && $editarId) {
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-            <?php else: ?>
-                <!-- Otras secciones -->
-                <?php if ($seccion == 'usuarios'): ?>
-                    <h2 class="text-2xl font-bold mb-4">Gestión de Usuarios</h2>
-                    <p>Aquí puedes administrar los usuarios.</p>
-                <?php elseif ($seccion == 'pedidos'): ?>
-                    <h2 class="text-2xl font-bold mb-4">Gestión de Pedidos</h2>
-                    <p>Aquí puedes administrar los pedidos.</p>
-                <?php elseif ($seccion == 'configuracion'): ?>
-                    <h2 class="text-2xl font-bold mb-4">Configuración</h2>
-                    <button class="bg-red-500 text-white px-4 py-2 rounded">Guardar Cambios</button>
+
+            <?php elseif ($seccion == 'usuarios'): ?>
+                <h2 class="text-2xl font-bold mb-4">Gestión de Usuarios</h2>
+                <p>Aquí puedes administrar los usuarios.</p>
+
+            <?php elseif ($seccion == 'carritos'): ?>
+                <h2 class="text-2xl font-bold mb-4">Gestión de Carritos</h2>
+                <p>Aquí puedes administrar los pedidos.</p>
+
+            <?php elseif ($seccion == 'proveedores'): ?>
+                <?php $proveedorEditar = null;
+                if ($editarId) {
+                    // Simula la búsqueda del proveedor en la base de datos
+                    foreach ($proveedores as $proveedor) {
+                        if ($proveedor->id == $editarId) {
+                            $proveedorEditar = $proveedor;
+                            break;
+                        }
+                    }
+                }
+                ?>
+
+                <?php if ($proveedorEditar): ?>
+                    <!-- Formulario de Edición de Proveedor -->
+                    <div class="max-w-3xl mx-auto bg-white p-6 shadow rounded">
+                        <h2 class="text-xl font-bold mb-4">Editar Proveedor</h2>
+                        <form action="<?= route('admin.actualizarProveedor', $proveedorEditar->id) ?>" method="POST">
+                            <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+                            <input type="hidden" name="_method" value="PUT">
+                            
+                            <label class="block mb-2 font-bold">Nombre del Proveedor</label>
+                            <input type="text" name="nombre" value="<?= $proveedorEditar->nombre ?>" class="w-full px-4 py-2 border rounded mb-4" required>
+                            
+                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Guardar Cambios</button>
+                            <a href="?seccion=proveedores" class="bg-gray-500 text-white px-4 py-2 rounded ml-2">Cancelar</a>
+                        </form>
+                    </div>
                 <?php else: ?>
-                    <h2 class="text-2xl font-bold mb-4">Página no encontrada</h2>
+                    <!-- Formulario para añadir un proveedor -->
+                    <div class="max-w-3xl mx-auto bg-white p-6 shadow rounded mb-6">
+                        <h2 class="text-xl font-bold mb-4">Añadir Proveedor</h2>
+                        <form action="<?= route('admin.crearProveedor') ?>" method="POST">
+                            <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+
+                            <label class="block mb-2 font-bold">Nombre del Proveedor</label>
+                            <input type="text" name="nombre" class="w-full px-4 py-2 border rounded mb-4" required>
+
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Añadir Proveedor</button>
+                        </form>
+                    </div>
+
+                    <!-- Listado de proveedores -->
+                    <div class="max-w-7xl mx-auto p-6 space-y-4">
+                        <h2 class="text-2xl font-bold mb-4">Listado de Proveedores</h2>
+                        <?php foreach ($proveedores as $proveedor): ?>
+                            <div class="flex items-center bg-white p-4 shadow rounded-lg">
+                                <h2 class="text-xl font-bold"><?= $proveedor->nombre ?></h2>
+                                <div class="ml-auto flex space-x-2">
+                                    <a href="?seccion=proveedores&editar=<?= $proveedor->id ?>" class="bg-green-500 text-white px-4 py-2 rounded">Editar</a>
+
+                                    <!-- Formulario para eliminar -->
+                                    <form action="<?= route('admin.eliminarProveedor', $proveedor->id) ?>" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este proveedor?');">
+                                        <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
+
+            <?php elseif ($seccion == 'configuracion'): ?>
+                <h2 class="text-2xl font-bold mb-4">Configuración</h2>
+                <button class="bg-red-500 text-white px-4 py-2 rounded">Guardar Cambios</button>
+
+            <?php else: ?>
+                <h2 class="text-2xl font-bold mb-4">Página no encontrada {{$seccion}}</h2>
             <?php endif; ?>
         </main>
     </div>

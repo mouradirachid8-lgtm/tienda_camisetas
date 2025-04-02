@@ -15,7 +15,7 @@
     </script>
 </head>
 <body>
-    <p>Bienvenido, {{ session('usuarioGlobal')->email ?? 'Invitado' }}</p>
+    <!--<p>Bienvenido, {{ session('usuarioGlobal')->email ?? 'Invitado' }}</p>-->
     <header class="bg-blue-900 shadow-lg shadow-blue-500/50 px-4 py-7">
         <div class="max-w-7xl mx-auto flex justify-between items-center space-x-6 relative">
             
@@ -45,7 +45,7 @@
             <!-- Sección de inicio de sesión y carrito -->
             <div class="flex gap-6 items-center ml-auto">
                 <!-- Icono de carrito -->
-                <a href="carro" class="bg-orange-500 px-4 py-2 rounded p-4 text-white flex items-center gap-2 transform transition-transform duration-200 hover:scale-110">
+                <a href="" class="bg-orange-500 px-4 py-2 rounded p-4 text-white flex items-center gap-2 transform transition-transform duration-200 hover:scale-110">
                     <i class="fas fa-shopping-cart text-white"></i> 
                     <span>Tu carro</span>
                 </a>
@@ -176,13 +176,11 @@
                 <h2 class="text-xl font-bold text-blue-50 mt-2">{{ $producto->nombre }}</h2>
                 <p class="text-lg font-semibold text-red-600 bg-yellow-200 p-2 inline-block rounded-lg">${{ $producto->precio }}</p>
                 <p class="text-sm text-gray-600">Descuento: <span class="font-semibold">{{ $producto->descuento }}%</span></p>
-                <form action="{{ route('carro.agregar') }}" method="POST">
                     @csrf
                     <input type="hidden" name="producto_id" value="{{ $producto->id }}">
                     <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
                         Agregar al carro
                     </button>
-                </form>
             </a>
         @endforeach
     </div>
