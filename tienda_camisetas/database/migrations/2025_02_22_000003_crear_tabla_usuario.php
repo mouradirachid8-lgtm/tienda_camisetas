@@ -11,20 +11,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuarios', function (Blueprint $table) {
-            $table->string('dni')->primary(); // Changed to lowercase to match reference
+        Schema::create('usuario', function (Blueprint $table) {
+            $table->string('dni')->primary();
             $table->string('nombre');
             $table->string('apellidos');
-            $table->string('email')->unique(); 
+            $table->string('email')->unique();
             $table->string('telefono');
             $table->string('pais');
             $table->string('localidad');
             $table->string('direccion');
             $table->string('modo_pago');
-            $table->date('fecha_registrado'); 
-            $table->integer('puntos_fidelidad')->default(0); 
-            $table->boolean('admin')->default(false); 
-            $table->timestamps(); 
+            $table->string('password'); // Nueva columna para almacenar la contraseña
+            $table->date('fecha_registrado');
+            $table->integer('puntos_fidelidad')->default(0);
+            $table->boolean('admin')->default(false);
+            $table->timestamps();
         });
     }
 
@@ -33,8 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuarios');
+        Schema::dropIfExists('usuario');
     }
 };
-
-?>
