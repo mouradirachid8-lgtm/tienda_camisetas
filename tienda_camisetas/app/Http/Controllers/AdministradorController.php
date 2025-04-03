@@ -30,14 +30,25 @@ class AdministradorController extends Controller
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'color' => 'required|string|max:50',
-            'temporada' => 'required|string|max:20',
+            'color' => 'nullable|string|max:50',
+            'temporada' => 'nullable|string|max:20',
             'material' => 'required|string|max:100',
             'descuento' => 'nullable|numeric|min:0|max:100',
-            'imagen' => 'nullable|image|max:2048', // Imagen opcional
-            'equipo_nombre' => 'nullable|string|max:255',
-            'proveedor_id' => 'nullable|exists:proveedore,id',
-            'talla_id' => 'nullable|exists:talla,id',
+            'imagen' => 'nullable|image|max:2048', 
+            'equipo_nombre' => 'required|string|max:255',
+            'proveedor_nombre' => 'required|string|max:255',
+            'talla_id' => 'required|exists:talla,id',
+        ], [
+            'nombre.required' => 'El nombre del producto es obligatorio.',
+            'precio.required' => 'El precio es obligatorio.',
+            'precio.numeric' => 'El precio debe ser un número.',
+            'stock.required' => 'El stock es obligatorio.',
+            'stock.integer' => 'El stock debe ser un número entero.',
+            'imagen.image' => 'La imagen debe ser un archivo de imagen válido.',
+            'equipo_nombre.required' => 'El nombre del equipo es obligatorio.',
+            'proveedor_nombre.required' => 'El nombre del proveedor es obligatorio.',
+            'talla_id.exists' => 'La talla seleccionada no es válida.',
+            'material.required' => 'El material del producto es obligatorio',
         ]);
 
         // Si se ha ingresado un nombre de equipo, verificar si existe
@@ -83,18 +94,30 @@ class AdministradorController extends Controller
     public function crearProducto(Request $request)
     {
         // Validación de los datos
-        $validatedData = $request->validate([
+        $request->validate([
             'nombre' => 'required|string|max:255',
-            'talla_id' => 'required|exists:talla,id',
             'precio' => 'required|numeric|min:0',
-            'stock' => 'nullable|integer|min:0',
-            'color' => 'nullable|string|max:100',
-            'temporada' => 'nullable|string|max:100',
-            'material' => 'nullable|string|max:255',
+            'stock' => 'required|integer|min:0',
+            'color' => 'nullable|string|max:50',
+            'temporada' => 'nullable|string|max:20',
+            'material' => 'required|string|max:100',
             'descuento' => 'nullable|numeric|min:0|max:100',
-            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'equipo_id' => 'required|exists:equipo,id',
-            'proveedor_id' => 'required|exists:proveedor,id',
+            'imagen' => 'required|image|max:2048', 
+            'equipo_nombre' => 'required|string|max:255',
+            'proveedor_nombre' => 'required|string|max:255',
+            'talla_id' => 'required|exists:talla,id',
+        ], [
+            'nombre.required' => 'El nombre del producto es obligatorio.',
+            'precio.required' => 'El precio es obligatorio.',
+            'precio.numeric' => 'El precio debe ser un número.',
+            'stock.required' => 'El stock es obligatorio.',
+            'stock.integer' => 'El stock debe ser un número entero.',
+            'imagen.image' => 'La imagen debe ser un archivo de imagen válido.',
+            'imagen.required' => 'La imagen del producto es obligatoria',
+            'equipo_nombre.required' => 'El nombre del equipo es obligatorio.',
+            'proveedor_nombre.required' => 'El nombre del proveedor es obligatorio.',
+            'talla_id.exists' => 'La talla seleccionada no es válida.',
+            'material.required' => 'El material del producto es obligatorio',
         ]);
         
         // Asignar valores predeterminados si no se proporcionan
