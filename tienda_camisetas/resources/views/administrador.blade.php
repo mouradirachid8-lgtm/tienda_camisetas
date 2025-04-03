@@ -1,6 +1,6 @@
 <?php
 $seccion = $_GET['seccion'] ?? 'usuarios'; // Sección por defecto
-$panelAcciones = in_array($seccion, ['usuarios', 'productos', 'pedidos', 'proveedores']);
+$panelAcciones = in_array($seccion, ['usuarios', 'productos', 'pedidos', 'proveedores', 'equipos']);
 $editarId = $_GET['editar'] ?? null;
 $productoEditar = null;
 
@@ -23,6 +23,7 @@ if ($seccion == 'productos' && $editarId) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administrador</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body class="bg-gray-100">
     <div class="flex h-screen">
@@ -39,7 +40,12 @@ if ($seccion == 'productos' && $editarId) {
                     <li class="mb-3"><a href="?seccion=equipos" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Equipos</a></li>
                     <li class="mb-3"><a href="?seccion=productos" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Productos</a></li>
                     <li class="mb-3"><a href="?seccion=carritos" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Carritos</a></li>
-                    <li class="mb-3"><a href="?seccion=configuracion" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Configuración</a></li>
+                    <li class="mb-3">
+                        <a href="{{ route('logout') }}" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
+                            <i class="fa fa-sign-out-alt"></i>
+                            <span>Cerrar Sesión</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </aside>
@@ -112,17 +118,45 @@ if ($seccion == 'productos' && $editarId) {
                     <!-- Formulario para añadir un producto -->
                     <div class="max-w-3xl mx-auto bg-white p-6 shadow rounded mb-6">
                         <h2 class="text-xl font-bold mb-4">Añadir Producto</h2>
+
+                        <!-- Mostrar mensajes de error generales -->
+                        <?php if ($errors->any()): ?>
+                            <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+                                <strong>Corrige los siguientes errores:</strong>
+                                <ul>
+                                    <?php foreach ($errors->all() as $error): ?>
+                                        <li><?= $error ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        <?php endif; ?>
+
                         <form action="<?= route('admin.crearProducto') ?>" method="POST" enctype="multipart/form-data">
                             <input type="hidden" name="_token" value="<?= csrf_token() ?>">
 
                             <label class="block mb-2 font-bold">Nombre del Producto</label>
-                            <input type="text" name="nombre" class="w-full px-4 py-2 border rounded mb-4" required>
+                            <input type="text" name="nombre" class="w-full px-4 py-2 border rounded mb-1 <?= $errors->has('nombre') ? 'border-red-500' : '' ?>" required value="<?= old('nombre') ?>">
+                            <?php if ($errors->has('nombre')): ?>
+                                <p class="text-red-500 text-sm"><?= $errors->first('nombre') ?></p>
+                            <?php endif; ?>
+
+                            <label class="block mb-2 font-bold">Imagen</label>
+                            <input type="file" name="imagen" class="w-full px-4 py-2 border rounded mb-1 <?= $errors->has('imagen') ? 'border-red-500' : '' ?>" required>
+                            <?php if ($errors->has('imagen')): ?>
+                                <p class="text-red-500 text-sm"><?= $errors->first('imagen') ?></p>
+                            <?php endif; ?>
+
+                            <label class="block mb-2 font-bold">Material</label>
+                            <input type="text" name="material" class="w-full px-4 py-2 border rounded mb-1 <?= $errors->has('material') ? 'border-red-500' : '' ?>" required value="<?= old('material') ?>">
+                            <?php if ($errors->has('material')): ?>
+                                <p class="text-red-500 text-sm"><?= $errors->first('material') ?></p>
+                            <?php endif; ?>
 
                             <label class="block mb-2 font-bold">Precio</label>
-                            <input type="number" name="precio" step="0.01" class="w-full px-4 py-2 border rounded mb-4" required>
-
-                            <label class="block mb-2 font-bold">Stock</label>
-                            <input type="number" name="stock" class="w-full px-4 py-2 border rounded mb-4" required>
+                            <input type="text" name="precio" class="w-full px-4 py-2 border rounded mb-1 <?= $errors->has('precio') ? 'border-red-500' : '' ?>" required value="<?= old('precio') ?>">
+                            <?php if ($errors->has('precio')): ?>
+                                <p class="text-red-500 text-sm"><?= $errors->first('precio') ?></p>
+                            <?php endif; ?>
 
                             <label class="block mb-2 font-bold">Color</label>
                             <input type="text" name="color" class="w-full px-4 py-2 border rounded mb-4">
@@ -130,17 +164,14 @@ if ($seccion == 'productos' && $editarId) {
                             <label class="block mb-2 font-bold">Temporada</label>
                             <input type="text" name="temporada" class="w-full px-4 py-2 border rounded mb-4">
 
-                            <label class="block mb-2 font-bold">Material</label>
-                            <input type="text" name="material" class="w-full px-4 py-2 border rounded mb-4">
+                            <label class="block mb-2 font-bold">Stock</label>
+                            <input type="number" name="stock" class="w-full px-4 py-2 border rounded mb-4" value="<?= old('stock', 0) ?>">
 
                             <label class="block mb-2 font-bold">Descuento (%)</label>
-                            <input type="number" name="descuento" min="0" max="100" class="w-full px-4 py-2 border rounded mb-4">
-
-                            <label class="block mb-2 font-bold">Imagen</label>
-                            <input type="file" name="imagen" class="w-full px-4 py-2 border rounded mb-4">
+                            <input type="number" name="descuento" min="0" max="100" class="w-full px-4 py-2 border rounded mb-4" value="<?= old('descuento', 0) ?>">
 
                             <label class="block mb-2 font-bold">Equipo</label>
-                            <select name="equipo_id" class="w-full px-4 py-2 border rounded mb-4">
+                            <select name="equipo_id" class="w-full px-4 py-2 border rounded mb-4" required>
                                 <option value="">Selecciona un equipo</option>
                                 <?php foreach ($equipos as $equipo): ?>
                                     <option value="<?= $equipo->id ?>"><?= $equipo->nombre ?></option>
@@ -148,7 +179,7 @@ if ($seccion == 'productos' && $editarId) {
                             </select>
 
                             <label class="block mb-2 font-bold">Proveedor</label>
-                            <select name="proveedor_id" class="w-full px-4 py-2 border rounded mb-4">
+                            <select name="proveedor_id" class="w-full px-4 py-2 border rounded mb-4" required>
                                 <option value="">Selecciona un proveedor</option>
                                 <?php foreach ($proveedores as $proveedor): ?>
                                     <option value="<?= $proveedor->id ?>"><?= $proveedor->nombre ?></option>
@@ -156,7 +187,7 @@ if ($seccion == 'productos' && $editarId) {
                             </select>
 
                             <label class="block mb-2 font-bold">Talla</label>
-                            <select name="talla_id" class="w-full px-4 py-2 border rounded mb-4">
+                            <select name="talla_id" class="w-full px-4 py-2 border rounded mb-4" required>
                                 <option value="">Selecciona una talla</option>
                                 <?php foreach ($tallas as $talla): ?>
                                     <option value="<?= $talla->id ?>"><?= $talla->nombre ?></option>
@@ -195,6 +226,69 @@ if ($seccion == 'productos' && $editarId) {
             <?php elseif ($seccion == 'carritos'): ?>
                 <h2 class="text-2xl font-bold mb-4">Gestión de Carritos</h2>
                 <p>Aquí puedes administrar los pedidos.</p>
+
+            <?php elseif ($seccion == 'equipos'): ?>
+                <?php $equipoEditar = null;
+                if ($editarId) {
+                    // Simula la búsqueda del proveedor en la base de datos
+                    foreach ($equipos as $equipo) {
+                        if ($equipo->id == $editarId) {
+                            $equipoEditar = $equipo;
+                            break;
+                        }
+                    }
+                }
+                ?>
+
+                <?php if ($equipoEditar): ?>
+                    <!-- Formulario de Edición de Proveedor -->
+                    <div class="max-w-3xl mx-auto bg-white p-6 shadow rounded">
+                        <h2 class="text-xl font-bold mb-4">Editar Proveedor</h2>
+                        <form action="<?= route('admin.actualizarEquipo', $equipoEditar->id) ?>" method="POST">
+                            <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+                            <input type="hidden" name="_method" value="PUT">
+                            
+                            <label class="block mb-2 font-bold">Nombre del Equipo</label>
+                            <input type="text" name="nombre" value="<?= $equipoEditar->nombre ?>" class="w-full px-4 py-2 border rounded mb-4" required>
+                            
+                            <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Guardar Cambios</button>
+                            <a href="?seccion=equipos" class="bg-gray-500 text-white px-4 py-2 rounded ml-2">Cancelar</a>
+                        </form>
+                    </div>
+                <?php else: ?>
+                    <!-- Formulario para añadir un proveedor -->
+                    <div class="max-w-3xl mx-auto bg-white p-6 shadow rounded mb-6">
+                        <h2 class="text-xl font-bold mb-4">Añadir Equipo</h2>
+                        <form action="<?= route('admin.crearEquipo') ?>" method="POST">
+                            <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+
+                            <label class="block mb-2 font-bold">Nombre del Equipo</label>
+                            <input type="text" name="nombre" class="w-full px-4 py-2 border rounded mb-4" required>
+
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Añadir Equipo</button>
+                        </form>
+                    </div>
+
+                    <!-- Listado de proveedores -->
+                    <div class="max-w-7xl mx-auto p-6 space-y-4">
+                        <h2 class="text-2xl font-bold mb-4">Listado de Equuipos</h2>
+                        <?php foreach ($equipos as $equipo): ?>
+                            <div class="flex items-center bg-white p-4 shadow rounded-lg">
+                                <h2 class="text-xl font-bold"><?= $equipo->nombre ?></h2>
+                                <div class="ml-auto flex space-x-2">
+                                    <a href="?seccion=equipo&editar=<?= $equipo->id ?>" class="bg-green-500 text-white px-4 py-2 rounded">Editar</a>
+
+                                    <!-- Formulario para eliminar -->
+                                    <form action="<?= route('admin.eliminarEquipo', $equipo->id) ?>" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este proveedor?');">
+                                        <input type="hidden" name="_token" value="<?= csrf_token() ?>">
+                                        <input type="hidden" name="_method" value="DELETE">
+                                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
 
             <?php elseif ($seccion == 'proveedores'): ?>
                 <?php $proveedorEditar = null;
@@ -258,10 +352,6 @@ if ($seccion == 'productos' && $editarId) {
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-
-            <?php elseif ($seccion == 'configuracion'): ?>
-                <h2 class="text-2xl font-bold mb-4">Configuración</h2>
-                <button class="bg-red-500 text-white px-4 py-2 rounded">Guardar Cambios</button>
 
             <?php else: ?>
                 <h2 class="text-2xl font-bold mb-4">Página no encontrada {{$seccion}}</h2>

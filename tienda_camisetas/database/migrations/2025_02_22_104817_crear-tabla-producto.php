@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->float('precio');
-            $table->integer('stock');
-            $table->string('color');
-            $table->string('temporada');
+            $table->integer('stock')->default(1);
+            $table->string('color')->nullable();;
+            $table->string('temporada')->nullable();;
             $table->string('material');
             $table->integer('descuento')->default(0);
             $table->string('imagen');

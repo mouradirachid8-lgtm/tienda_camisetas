@@ -29,6 +29,10 @@ Route::post('/administrador/proveedores', [AdministradorController::class, 'crea
 Route::put('/administrador/proveedores/{id}', [AdministradorController::class, 'actualizarProveedor'])->name('admin.actualizarProveedor');
 Route::delete('/administrador/proveedores/{id}', [AdministradorController::class, 'eliminarProveedor'])->name('admin.eliminarProveedor');
 
+Route::post('/administrador/equipos', [AdministradorController::class, 'crearEquipo'])->name('admin.crearEquipo');
+Route::put('/administrador/equipos/{id}', [AdministradorController::class, 'actualizarEquipo'])->name('admin.actualizarEquipo');
+Route::delete('/administrador/equipos/{id}', [AdministradorController::class, 'eliminarEquipo'])->name('admin.eliminarEquipo');
+
 Route::get('/catalogo', [PaginacionController::class, 'index'])->name('catalogo');
 Route::get('/catalogo/buscar', [CatalogoController::class, 'search_request'])->name('catalogo.buscar');
 Route::get('/catalogo/filtrar', [CatalogoController::class, 'filtrarProductos'])->name('catalogo.filtrar');
