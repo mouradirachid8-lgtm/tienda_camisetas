@@ -83,19 +83,24 @@ class AdministradorController extends Controller
     public function crearProducto(Request $request)
     {
         // Validación de los datos
-        $request->validate([
+        $validatedData = $request->validate([
             'nombre' => 'required|string|max:255',
             'talla_id' => 'required|exists:talla,id',
             'precio' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
-            'color' => 'required|string|max:100',
-            'temporada' => 'required|string|max:100',
-            'material' => 'required|string|max:255',
+            'stock' => 'nullable|integer|min:0',
+            'color' => 'nullable|string|max:100',
+            'temporada' => 'nullable|string|max:100',
+            'material' => 'nullable|string|max:255',
             'descuento' => 'nullable|numeric|min:0|max:100',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'equipo_id' => 'required|exists:equipo,id',
             'proveedor_id' => 'required|exists:proveedor,id',
         ]);
+        
+        // Asignar valores predeterminados si no se proporcionan
+        $validatedData['stock'] = $validatedData['stock'] ?? 0;
+        $validatedData['descuento'] = $validatedData['descuento'] ?? 0;
+        $validatedData['temporada'] = $validatedData['temporada'] ?? '2025-2024';
 
         $rutaImagen = null;
 
@@ -175,6 +180,56 @@ class AdministradorController extends Controller
         }
         
         $proveedor->delete();
+
+        // Redireccionar con mensaje
+        return redirect()->back()->with('success', 'Proveedor eliminado correctamente');
+    }
+
+    public function crearEquipo(Request $request)
+    {
+        // Validación
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        // Crear nuevo proveedor
+        $equipo = new Equipo();
+        $equipo->nombre = $request->nombre;
+        $equipo->save();
+
+        // Redireccionar con mensaje
+        return redirect()->route('administrador')->with('success', 'Proveedor creado correctamente');
+    }
+
+    public function actualizarEquipo(Request $request, $id)
+    {
+        // Validación
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        // Buscar y actualizar proveedor
+        $equipo = Proveedor::findOrFail($id);
+        $equipo->nombre = $request->nombre;
+        $equipo->save();
+
+        // Redireccionar con mensaje
+        return redirect()->route('administrador')->with('success', 'Proveedor actualizado correctamente');
+    }
+
+    public function eliminarEquipo($id)
+    {
+        // Buscar y eliminar proveedor
+        $equipo = Proveedor::findOrFail($id);
+        
+        // Verificar si tiene productos asociados
+        $productosAsociados = Producto::where('proveedor_id', $id)->count();
+        
+        if ($productosAsociados > 0) {
+            return redirect()->back()->with('error', 'No se puede eliminar este equipo porque tiene productos asociados');
+        }
+        
+        $equipo->delete();
 
         // Redireccionar con mensaje
         return redirect()->back()->with('success', 'Proveedor eliminado correctamente');
