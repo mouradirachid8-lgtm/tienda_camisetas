@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 <body class="flex flex-col items-center justify-center h-screen bg-white">
 
@@ -15,7 +16,7 @@
     <div class="w-full max-w-lg bg-white p-10 rounded-[20px] shadow-lg border-t-[5px] border-t-orange-500 mt-6">
         <h1 class="text-4xl font-bold text-center mb-6">Iniciar Sesión</h1>
         <p class="text-lg text-center mb-6">¿Es tu primera vez? 
-            <a href="" class="text-blue-800 font-semibold hover:underline">Regístrate</a>
+            <a href="/register" class="text-blue-800 font-semibold hover:underline">Regístrate</a>
         </p>
 
         <!-- Mensajes de error -->
@@ -36,7 +37,7 @@
                 @error('password') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
             </div>
             <div class="mt-6">
-                <button type="submit" class="w-full bg-orange-600 text-white py-3 rounded-lg hover:bg-blue-700 font-bold transition">Ingresar</button>
+                <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-500 hover:scale-105 duration-75 ease-in-out font-bold transition">Ingresar</button>
             </div>
         </form>
     </div>
