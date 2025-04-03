@@ -9,12 +9,17 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarroController;
 
 Route::get('/', function () {
-    return view('inicio');
+    return view('welcome');
 });
 
 Route::get('/login', function () {
     return view('login');
 })->name('login');
+
+Route::get('/register', function () {
+    return view('register');
+})->name('register');
+
 
 Route::get('/carro', function () {
     return view('carro');
@@ -40,6 +45,10 @@ Route::get('/catalogo/filtrar', [CatalogoController::class, 'filtrarProductos'])
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.auth');
 Route::post('/logout', [AuthController::class, 'logout'])->name('login');
+
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.store');
+Route::get('/register', [AuthController::class, 'rellena_paises']);
 
 //Route::post('/carro/agregar', [CarroController::class, 'agregarAlCarrito'])->name('carro.agregar');
 //Route::delete('/carro/eliminar/{id}', [CarroController::class, 'eliminarDelCarrito'])->name('carro.eliminar');
