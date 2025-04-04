@@ -68,7 +68,7 @@ if ($seccion == 'productos' && $editarId) {
                             <label class="block mb-2 font-bold">Nombre del Producto</label>
                             <input type="text" name="nombre" value="<?= $productoEditar->nombre ?>" class="w-full px-4 py-2 border rounded mb-4">
                             @error('nombre')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                                <p class="text-red-500 text-sm">{{ $errors->first('nombre') }}</p>
                             @enderror
                             
                             <label class="block mb-2 font-bold">Talla</label>
@@ -81,19 +81,18 @@ if ($seccion == 'productos' && $editarId) {
                                 <?php endforeach; ?>
                             </select>
                             @error('talla_id')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
-                            @enderror
-
+                            <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
+                        @enderror
                             <label class="block mb-2 font-bold">Precio</label>
                             <input type="number" name="precio" value="<?= $productoEditar->getPrecio() ?>" class="w-full px-4 py-2 border rounded mb-4">
-                            @error('precio')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @error('talla_id')
+                                <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
                             @enderror
                             
                             <label class="block mb-2 font-bold">Stock</label>
                             <input type="number" name="stock" value="<?= $productoEditar->getStock() ?>" class="w-full px-4 py-2 border rounded mb-4">
-                            @error('stock')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @error('talla_id')
+                                <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
                             @enderror
                             
                             <label class="block mb-2 font-bold">Color</label>
@@ -104,8 +103,8 @@ if ($seccion == 'productos' && $editarId) {
                             
                             <label class="block mb-2 font-bold">Material</label>
                             <input type="text" name="material" value="<?= $productoEditar->materiaL?>" class="w-full px-4 py-2 border rounded mb-4">
-                            @error('material')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @error('talla_id')
+                                <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
                             @enderror
                             
                             <label class="block mb-2 font-bold">Descuento (%)</label>
@@ -119,14 +118,14 @@ if ($seccion == 'productos' && $editarId) {
                             
                             <label class="block mb-2 font-bold">Equipo</label>
                             <input type="text" name="equipo_nombre" value="<?= $productoEditar->equipo->getNombre() ?? '' ?>" class="w-full px-4 py-2 border rounded mb-4">
-                            @error('equipo_nombre')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @error('talla_id')
+                                <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
                             @enderror
 
                             <label class="block mb-2 font-bold">Proveedor</label>
                             <input type="text" name="proveedor_nombre" value="<?= $productoEditar->proveedor->getNombre() ?? '' ?>" class="w-full px-4 py-2 border rounded mb-4">
-                            @error('proveedor_nombre')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @error('talla_id')
+                                <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
                             @enderror
                             
                             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Guardar Cambios</button>
