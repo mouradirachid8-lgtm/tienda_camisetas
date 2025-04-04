@@ -30,14 +30,25 @@ class AdministradorController extends Controller
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'color' => 'required|string|max:50',
-            'temporada' => 'required|string|max:20',
+            'color' => 'nullable|string|max:50',
+            'temporada' => 'nullable|string|max:20',
             'material' => 'required|string|max:100',
             'descuento' => 'nullable|numeric|min:0|max:100',
-            'imagen' => 'nullable|image|max:2048', // Imagen opcional
-            'equipo_nombre' => 'nullable|string|max:255',
-            'proveedor_id' => 'nullable|exists:proveedore,id',
-            'talla_id' => 'nullable|exists:talla,id',
+            'imagen' => 'nullable|image|max:2048', 
+            'equipo_nombre' => 'required|string|max:255',
+            'proveedor_nombre' => 'required|string|max:255',
+            'talla_id' => 'required|exists:talla,id',
+        ], [
+            'nombre.required' => 'El nombre del producto es obligatorio.',
+            'precio.required' => 'El precio es obligatorio.',
+            'precio.numeric' => 'El precio debe ser un número.',
+            'stock.required' => 'El stock es obligatorio.',
+            'stock.integer' => 'El stock debe ser un número entero.',
+            'imagen.image' => 'La imagen debe ser un archivo de imagen válido.',
+            'equipo_nombre.required' => 'El nombre del equipo es obligatorio.',
+            'proveedor_nombre.required' => 'El nombre del proveedor es obligatorio.',
+            'talla_id.exists' => 'La talla seleccionada no es válida.',
+            'material.required' => 'El material del producto es obligatorio',
         ]);
 
         // Si se ha ingresado un nombre de equipo, verificar si existe
@@ -85,17 +96,34 @@ class AdministradorController extends Controller
         // Validación de los datos
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'talla_id' => 'required|exists:talla,id',
             'precio' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'color' => 'required|string|max:100',
-            'temporada' => 'required|string|max:100',
-            'material' => 'required|string|max:255',
+            'color' => 'nullable|string|max:50',
+            'temporada' => 'nullable|string|max:20',
+            'material' => 'required|string|max:100',
             'descuento' => 'nullable|numeric|min:0|max:100',
-            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'equipo_id' => 'required|exists:equipo,id',
-            'proveedor_id' => 'required|exists:proveedor,id',
+            'imagen' => 'required|image|max:2048', 
+            'equipo_nombre' => 'required|string|max:255',
+            'proveedor_nombre' => 'required|string|max:255',
+            'talla_id' => 'required|exists:talla,id',
+        ], [
+            'nombre.required' => 'El nombre del producto es obligatorio.',
+            'precio.required' => 'El precio es obligatorio.',
+            'precio.numeric' => 'El precio debe ser un número.',
+            'stock.required' => 'El stock es obligatorio.',
+            'stock.integer' => 'El stock debe ser un número entero.',
+            'imagen.image' => 'La imagen debe ser un archivo de imagen válido.',
+            'imagen.required' => 'La imagen del producto es obligatoria',
+            'equipo_nombre.required' => 'El nombre del equipo es obligatorio.',
+            'proveedor_nombre.required' => 'El nombre del proveedor es obligatorio.',
+            'talla_id.exists' => 'La talla seleccionada no es válida.',
+            'material.required' => 'El material del producto es obligatorio',
         ]);
+        
+        // Asignar valores predeterminados si no se proporcionan
+        $validatedData['stock'] = $validatedData['stock'] ?? 0;
+        $validatedData['descuento'] = $validatedData['descuento'] ?? 0;
+        $validatedData['temporada'] = $validatedData['temporada'] ?? '2025-2024';
 
         $rutaImagen = null;
 
@@ -175,6 +203,56 @@ class AdministradorController extends Controller
         }
         
         $proveedor->delete();
+
+        // Redireccionar con mensaje
+        return redirect()->back()->with('success', 'Proveedor eliminado correctamente');
+    }
+
+    public function crearEquipo(Request $request)
+    {
+        // Validación
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        // Crear nuevo proveedor
+        $equipo = new Equipo();
+        $equipo->nombre = $request->nombre;
+        $equipo->save();
+
+        // Redireccionar con mensaje
+        return redirect()->route('administrador')->with('success', 'Proveedor creado correctamente');
+    }
+
+    public function actualizarEquipo(Request $request, $id)
+    {
+        // Validación
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+        ]);
+
+        // Buscar y actualizar proveedor
+        $equipo = Proveedor::findOrFail($id);
+        $equipo->nombre = $request->nombre;
+        $equipo->save();
+
+        // Redireccionar con mensaje
+        return redirect()->route('administrador')->with('success', 'Proveedor actualizado correctamente');
+    }
+
+    public function eliminarEquipo($id)
+    {
+        // Buscar y eliminar proveedor
+        $equipo = Proveedor::findOrFail($id);
+        
+        // Verificar si tiene productos asociados
+        $productosAsociados = Producto::where('proveedor_id', $id)->count();
+        
+        if ($productosAsociados > 0) {
+            return redirect()->back()->with('error', 'No se puede eliminar este equipo porque tiene productos asociados');
+        }
+        
+        $equipo->delete();
 
         // Redireccionar con mensaje
         return redirect()->back()->with('success', 'Proveedor eliminado correctamente');
