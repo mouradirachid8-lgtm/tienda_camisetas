@@ -14,22 +14,23 @@ return new class extends Migration
         Schema::create('producto', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('talla');
             $table->float('precio');
-            $table->integer('stock');
-            $table->string('color');
-            $table->string('temporada');
+            $table->integer('stock')->default(1);
+            $table->string('color')->nullable();;
+            $table->string('temporada')->nullable();;
             $table->string('material');
-            $table->integer('descuento');
+            $table->integer('descuento')->default(0);
             $table->string('imagen');
 
-            // Relaciones con equipo y proveedor
+            // Relaciones con talla, equipo y proveedor
+            $table->unsignedBigInteger('talla_id');
             $table->unsignedBigInteger('equipo_id');
             $table->unsignedBigInteger('proveedor_id');
 
             $table->timestamps();
 
             // Claves foráneas
+            $table->foreign('talla_id')->references('id')->on('talla')->onDelete('cascade');
             $table->foreign('equipo_id')->references('id')->on('equipo')->onDelete('cascade');
             $table->foreign('proveedor_id')->references('id')->on('proveedor')->onDelete('cascade');
         });

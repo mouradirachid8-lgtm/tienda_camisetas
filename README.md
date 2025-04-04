@@ -44,7 +44,8 @@ php artisan key:generate
 ```
 6. Ejecutamos el siguiente comando para lanzar las migraciones y formar la BD:
 ```sh
-php artisan migrate
+php artisan migrate -------------> ALTERNATIVA POR LA CARA: php artisan migrate --database=mysql
+
 ```
 
 7. Para ejecutar el proyecto. Usad el siguiente comando:
