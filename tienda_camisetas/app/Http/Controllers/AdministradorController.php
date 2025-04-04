@@ -102,10 +102,10 @@ class AdministradorController extends Controller
             'temporada' => 'nullable|string|max:20',
             'material' => 'required|string|max:100',
             'descuento' => 'nullable|numeric|min:0|max:100',
-            'imagen' => 'required|image|max:2048', 
-            'equipo_nombre' => 'required|string|max:255',
-            'proveedor_nombre' => 'required|string|max:255',
+            'imagen' => 'required|image|max:2048',
             'talla_id' => 'required|exists:talla,id',
+            'equipo_id' => 'required|exists:equipo,id',
+            'proveedor_id' => 'required|exists:proveedor,id',
         ], [
             'nombre.required' => 'El nombre del producto es obligatorio.',
             'precio.required' => 'El precio es obligatorio.',
@@ -113,12 +113,16 @@ class AdministradorController extends Controller
             'stock.required' => 'El stock es obligatorio.',
             'stock.integer' => 'El stock debe ser un número entero.',
             'imagen.image' => 'La imagen debe ser un archivo de imagen válido.',
-            'imagen.required' => 'La imagen del producto es obligatoria',
-            'equipo_nombre.required' => 'El nombre del equipo es obligatorio.',
-            'proveedor_nombre.required' => 'El nombre del proveedor es obligatorio.',
+            'imagen.required' => 'La imagen del producto es obligatoria.',
+            'material.required' => 'El material del producto es obligatorio.',
+            'talla_id.required' => 'La talla es obligatoria.',
             'talla_id.exists' => 'La talla seleccionada no es válida.',
-            'material.required' => 'El material del producto es obligatorio',
+            'equipo_id.required' => 'El equipo es obligatorio.',
+            'equipo_id.exists' => 'El equipo seleccionado no es válido.',
+            'proveedor_id.required' => 'El proveedor es obligatorio.',
+            'proveedor_id.exists' => 'El proveedor seleccionado no es válido.',
         ]);
+        
         
         // Asignar valores predeterminados si no se proporcionan
         $validatedData['stock'] = $validatedData['stock'] ?? 0;
@@ -221,7 +225,7 @@ class AdministradorController extends Controller
         $equipo->save();
 
         // Redireccionar con mensaje
-        return redirect()->route('administrador')->with('success', 'Proveedor creado correctamente');
+        return redirect()->route('administrador')->with('success', 'Equipo creado correctamente');
     }
 
     public function actualizarEquipo(Request $request, $id)
@@ -232,21 +236,21 @@ class AdministradorController extends Controller
         ]);
 
         // Buscar y actualizar proveedor
-        $equipo = Proveedor::findOrFail($id);
+        $equipo = Equipo::findOrFail($id);
         $equipo->nombre = $request->nombre;
         $equipo->save();
 
         // Redireccionar con mensaje
-        return redirect()->route('administrador')->with('success', 'Proveedor actualizado correctamente');
+        return redirect()->route('administrador')->with('success', 'Equipo actualizado correctamente');
     }
 
     public function eliminarEquipo($id)
     {
         // Buscar y eliminar proveedor
-        $equipo = Proveedor::findOrFail($id);
+        $equipo = Equipo::findOrFail($id);
         
         // Verificar si tiene productos asociados
-        $productosAsociados = Producto::where('proveedor_id', $id)->count();
+        $productosAsociados = Producto::where('equipo_id', $id)->count();
         
         if ($productosAsociados > 0) {
             return redirect()->back()->with('error', 'No se puede eliminar este equipo porque tiene productos asociados');
@@ -255,6 +259,6 @@ class AdministradorController extends Controller
         $equipo->delete();
 
         // Redireccionar con mensaje
-        return redirect()->back()->with('success', 'Proveedor eliminado correctamente');
+        return redirect()->back()->with('success', 'Equipo eliminado correctamente');
     }
 }
