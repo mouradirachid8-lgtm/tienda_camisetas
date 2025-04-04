@@ -17,6 +17,7 @@
         <h1 class="text-4xl font-bold text-center mb-6">INICIO</h1>
             <a href="/catalogo" class="block text-center w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-500 hover:scale-105 duration-75 ease-in-out font-bold transition p-7 my-2">Catálogo</a>
             <a href="/administrador" class="block text-center w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-500 hover:scale-105 duration-75 ease-in-out font-bold transition p-7 my-2">Administrador</a>
+            <a href="/perfil" class="block text-center w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-500 hover:scale-105 duration-75 ease-in-out font-bold transition p-7 my-2">Perfil</a>
             <p class="mt-5 md:relative md:transform md:translate-x-1/4"> Accesos rápidos para debuggear </p>
         </div>
 

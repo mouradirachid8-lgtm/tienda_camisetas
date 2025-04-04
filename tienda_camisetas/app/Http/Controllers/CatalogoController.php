@@ -76,9 +76,8 @@ class CatalogoController extends Controller
                 $query->orderBy('precio', $orden);
             }
         }
-
         // Obtener productos filtrados
-        $productos = $query->get();
+        $productos = $query->paginate(24); 
 
         // Obtener lista de equipos para los checkboxes
         $equipos = Equipo::all();
