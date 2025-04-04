@@ -25,6 +25,10 @@ Route::get('/carro', function () {
     return view('carro');
 })->name('carro');
 
+Route::get('/perfil', function () {
+    return view('perfil');
+})->name('perfil');
+
 Route::get('/administrador', [AdministradorController::class, 'index'])->name('administrador');
 Route::put('/administrador/productos/editar/{id}', [AdministradorController::class, 'actualizarProducto'])->name('admin.actualizarProducto');
 Route::delete('/administrador/productos/eliminar/{id}', [AdministradorController::class, 'eliminarProducto'])->name('admin.eliminarProducto');
