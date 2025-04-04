@@ -307,7 +307,7 @@ if ($seccion == 'productos' && $editarId) {
                                     <a href="?seccion=equipos&editar=<?= $equipo->id ?>" class="bg-green-500 text-white px-4 py-2 rounded">Editar</a>
 
                                     <!-- Formulario para eliminar -->
-                                    <form action="<?= route('admin.eliminarEquipo', $equipo->id) ?>" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este proveedor?');">
+                                    <form action="<?= route('admin.eliminarEquipo', $equipo->id) ?>" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este equipo?');">
                                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>

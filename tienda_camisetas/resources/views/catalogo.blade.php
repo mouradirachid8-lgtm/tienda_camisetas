@@ -45,7 +45,7 @@
             <!-- Sección de inicio de sesión y carrito -->
             <div class="flex gap-6 items-center ml-auto">
                 <!-- Icono de carrito -->
-                <a href="" class="bg-orange-500 px-4 py-2 rounded p-4 text-white flex items-center gap-2 transform transition-transform duration-200 hover:scale-110">
+                <a href="carro" class="bg-orange-500 px-4 py-2 rounded p-4 text-white flex items-center gap-2 transform transition-transform duration-200 hover:scale-110">
                     <i class="fas fa-shopping-cart text-white"></i> 
                     <span>Tu carro</span>
                 </a>
