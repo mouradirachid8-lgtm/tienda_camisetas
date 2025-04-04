@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('equipo', function (Blueprint $table) {
             $table->id(); // Esta ID es autoincremental
             $table->string('nombre', 50);
-            $table->string('pais', 50);
+            $table->string('pais', 50)->nullable();
             $table->timestamps(); // Puedes quitar esta línea si no necesitas los timestamps
         });
     }
