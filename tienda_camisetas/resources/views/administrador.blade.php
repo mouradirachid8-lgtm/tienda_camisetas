@@ -15,7 +15,6 @@ if ($seccion == 'productos' && $editarId) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -41,7 +40,7 @@ if ($seccion == 'productos' && $editarId) {
                     <li class="mb-3"><a href="?seccion=productos" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Productos</a></li>
                     <li class="mb-3"><a href="?seccion=carritos" class="block py-2 px-4 rounded bg-gray-700 hover:bg-gray-600">Carritos</a></li>
                     <li class="mb-3">
-                        <a href="{{ route('logout') }}" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
+                        <a href="/" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
                             <i class="fa fa-sign-out-alt"></i>
                             <span>Cerrar Sesión</span>
                         </a>
@@ -69,7 +68,7 @@ if ($seccion == 'productos' && $editarId) {
                             <label class="block mb-2 font-bold">Nombre del Producto</label>
                             <input type="text" name="nombre" value="<?= $productoEditar->nombre ?>" class="w-full px-4 py-2 border rounded mb-4">
                             @error('nombre')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                                <p class="text-red-500 text-sm">{{ $errors->first('nombre') }}</p>
                             @enderror
                             
                             <label class="block mb-2 font-bold">Talla</label>
@@ -82,19 +81,18 @@ if ($seccion == 'productos' && $editarId) {
                                 <?php endforeach; ?>
                             </select>
                             @error('talla_id')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
-                            @enderror
-
+                            <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
+                        @enderror
                             <label class="block mb-2 font-bold">Precio</label>
                             <input type="number" name="precio" value="<?= $productoEditar->getPrecio() ?>" class="w-full px-4 py-2 border rounded mb-4">
-                            @error('precio')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @error('talla_id')
+                                <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
                             @enderror
                             
                             <label class="block mb-2 font-bold">Stock</label>
                             <input type="number" name="stock" value="<?= $productoEditar->getStock() ?>" class="w-full px-4 py-2 border rounded mb-4">
-                            @error('stock')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @error('talla_id')
+                                <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
                             @enderror
                             
                             <label class="block mb-2 font-bold">Color</label>
@@ -105,8 +103,8 @@ if ($seccion == 'productos' && $editarId) {
                             
                             <label class="block mb-2 font-bold">Material</label>
                             <input type="text" name="material" value="<?= $productoEditar->materiaL?>" class="w-full px-4 py-2 border rounded mb-4">
-                            @error('material')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @error('talla_id')
+                                <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
                             @enderror
                             
                             <label class="block mb-2 font-bold">Descuento (%)</label>
@@ -120,14 +118,14 @@ if ($seccion == 'productos' && $editarId) {
                             
                             <label class="block mb-2 font-bold">Equipo</label>
                             <input type="text" name="equipo_nombre" value="<?= $productoEditar->equipo->getNombre() ?? '' ?>" class="w-full px-4 py-2 border rounded mb-4">
-                            @error('equipo_nombre')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @error('talla_id')
+                                <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
                             @enderror
 
                             <label class="block mb-2 font-bold">Proveedor</label>
                             <input type="text" name="proveedor_nombre" value="<?= $productoEditar->proveedor->getNombre() ?? '' ?>" class="w-full px-4 py-2 border rounded mb-4">
-                            @error('proveedor_nombre')
-                                <p class="text-red-500 text-sm">{{ $message }}</p>
+                            @error('talla_id')
+                                <p class="text-red-500 text-sm">{{ $errors->first('talla_id') }}</p>
                             @enderror
                             
                             <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Guardar Cambios</button>
@@ -262,9 +260,8 @@ if ($seccion == 'productos' && $editarId) {
                 ?>
 
                 <?php if ($equipoEditar): ?>
-                    <!-- Formulario de Edición de Proveedor -->
                     <div class="max-w-3xl mx-auto bg-white p-6 shadow rounded">
-                        <h2 class="text-xl font-bold mb-4">Editar Proveedor</h2>
+                        <h2 class="text-xl font-bold mb-4">Editar Equippo</h2>
                         <form action="<?= route('admin.actualizarEquipo', $equipoEditar->id) ?>" method="POST">
                             <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                             <input type="hidden" name="_method" value="PUT">
@@ -277,7 +274,6 @@ if ($seccion == 'productos' && $editarId) {
                         </form>
                     </div>
                 <?php else: ?>
-                    <!-- Formulario para añadir un proveedor -->
                     <div class="max-w-3xl mx-auto bg-white p-6 shadow rounded mb-6">
                         <h2 class="text-xl font-bold mb-4">Añadir Equipo</h2>
                         <form action="<?= route('admin.crearEquipo') ?>" method="POST">
@@ -290,17 +286,28 @@ if ($seccion == 'productos' && $editarId) {
                         </form>
                     </div>
 
-                    <!-- Listado de proveedores -->
                     <div class="max-w-7xl mx-auto p-6 space-y-4">
-                        <h2 class="text-2xl font-bold mb-4">Listado de Equuipos</h2>
+                        <h2 class="text-2xl font-bold mb-4">Listado de Equipos</h2>
+
+                        <!-- Mostrar mensaje solo una vez -->
+                        <?php if (session('success')): ?>
+                            <div class="bg-green-100 text-green-800 p-4 rounded">
+                                <?= session('success') ?>
+                            </div>
+                        <?php elseif (session('error')): ?>
+                            <div class="bg-red-100 text-red-800 p-4 rounded">
+                                <?= session('error') ?>
+                            </div>
+                        <?php endif; ?>
+
                         <?php foreach ($equipos as $equipo): ?>
                             <div class="flex items-center bg-white p-4 shadow rounded-lg">
                                 <h2 class="text-xl font-bold"><?= $equipo->nombre ?></h2>
                                 <div class="ml-auto flex space-x-2">
-                                    <a href="?seccion=equipo&editar=<?= $equipo->id ?>" class="bg-green-500 text-white px-4 py-2 rounded">Editar</a>
+                                    <a href="?seccion=equipos&editar=<?= $equipo->id ?>" class="bg-green-500 text-white px-4 py-2 rounded">Editar</a>
 
                                     <!-- Formulario para eliminar -->
-                                    <form action="<?= route('admin.eliminarEquipo', $equipo->id) ?>" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este proveedor?');">
+                                    <form action="<?= route('admin.eliminarEquipo', $equipo->id) ?>" method="POST" onsubmit="return confirm('¿Seguro que deseas eliminar este equipo?');">
                                         <input type="hidden" name="_token" value="<?= csrf_token() ?>">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Eliminar</button>

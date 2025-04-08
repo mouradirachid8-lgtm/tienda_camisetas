@@ -45,23 +45,14 @@
             <!-- Sección de inicio de sesión y carrito -->
             <div class="flex gap-6 items-center ml-auto">
                 <!-- Icono de carrito -->
-                <a href="" class="bg-orange-500 px-4 py-2 rounded p-4 text-white flex items-center gap-2 transform transition-transform duration-200 hover:scale-110">
+                <a href="carro" class="bg-orange-500 px-4 py-2 rounded p-4 text-white flex items-center gap-2 transform transition-transform duration-200 hover:scale-110">
                     <i class="fas fa-shopping-cart text-white"></i> 
                     <span>Tu carro</span>
                 </a>
-                @if (session('usuarioGlobal'))
-                    <!-- Si está autenticado, mostrar Cerrar Sesión -->
-                    <a href="{{ route('logout') }}" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
-                        <i class="fa fa-sign-out-alt"></i>
-                        <span>Cerrar Sesión</span>
-                    </a>
-                @else
-                    <!-- Si no ha iniciado sesión, mostrar "Iniciar Sesión" -->
-                    <a href="{{ route('login') }}" class="flex items-center space-x-2 text-orange-500 hover:text-orange-700">
-                        <i class="fa fa-sign-in-alt"></i>
-                        <span>Iniciar Sesión</span>
-                    </a>
-                @endif
+                <a href="/" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
+                    <i class="fa fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
             </div>
         </div>
     </header>
