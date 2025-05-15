@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\PaginacionController;
 use App\Http\Controllers\AdministradorController;
@@ -46,9 +46,15 @@ Route::get('/catalogo', [PaginacionController::class, 'index'])->name('catalogo'
 Route::get('/catalogo/buscar', [CatalogoController::class, 'search_request'])->name('catalogo.buscar');
 Route::get('/catalogo/filtrar', [CatalogoController::class, 'filtrarProductos'])->name('catalogo.filtrar');
 
-//Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-//Route::post('/login', [AuthController::class, 'login'])->name('login.auth');
-//Route::post('/logout', [AuthController::class, 'logout'])->name('login');
+// Rutas para los productos
+Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('producto.show');
+
+// Ruta para agregar al carrito (complementaria a la vista del producto)
+Route::post('/carrito/agregar', [CarroController::class, 'agregar'])->name('carrito.agregar');
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.auth');
+Route::post('/logout', [AuthController::class, 'logout'])->name('login');
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.store');
@@ -58,9 +64,9 @@ Route::get('/register', [AuthController::class, 'rellena_paises']);
 //Route::delete('/carro/eliminar/{id}', [CarroController::class, 'eliminarDelCarrito'])->name('carro.eliminar');
 //Route::get('/carro', [CarroController::class, 'mostrarCarrito'])->name('carro.mostrar');
 
-/*Route::get('/logout', function () {
+Route::get('/logout', function () {
     Auth::logout();
     session()->invalidate(); // Invalidar sesión
     session()->regenerateToken(); // Evitar problemas de seguridad
     return redirect('/login'); // Redirigir a la página de inicio
-})->name('logout');*/
+})->name('logout');

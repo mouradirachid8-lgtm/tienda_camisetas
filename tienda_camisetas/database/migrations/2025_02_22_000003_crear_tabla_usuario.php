@@ -21,8 +21,7 @@ return new class extends Migration
             $table->string('localidad');
             $table->string('direccion');
             $table->string('modo_pago');
-            $table->string('password'); // Nueva columna para almacenar la contraseña
-            $table->date('fecha_registrado');
+            $table->string('password');
             $table->integer('puntos_fidelidad')->default(0);
             $table->boolean('admin')->default(false);
             $table->timestamps();
