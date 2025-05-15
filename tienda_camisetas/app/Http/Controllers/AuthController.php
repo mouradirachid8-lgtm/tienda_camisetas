@@ -67,28 +67,33 @@ class AuthController extends Controller
     {
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'apellido1' => 'required|string|max:255',
-            'apellido2' => 'nullable|string|max:255',
-            'telefono' => 'nullable|string|max:20',
-            'email' => 'required|string|email|max:255|unique:users',
+            'apellidos' => 'required|string|max:255',
+            'dni' => 'required|string|max:255',
+            'telefono' => 'required|string|max:20',
+            'email' => 'required|string|email|max:255|unique:usuario',
             'password' => 'required|string|min:8|confirmed',
+            'pais' => 'required|string|max:20',
+            'localidad' => 'required|string|max:20',
+            'direccion' => 'required|string|max:200'
         ]);
 
         // Create the user
         $user = User::create([
             'nombre' => $request->nombre,
-            'apellido1' => $request->apellido1,
-            'apellido2' => $request->apellido2,
+            'apellidos' => $request->apellidos,
+            'dni' => $request->dni,
             'telefono' => $request->codigo_pais . $request->telefono,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'pais' => $request->pais,
+            'localidad' => $request->localidad,
+            'direccion' => $request->direccion
         ]);
 
         // Log the user in
         Auth::login($user);
 
-        // Redirect to dashboard or home page
-        return redirect()->route('dashboard');
+        return redirect()->route('catalogo');
     }
 
     public function rellena_paises()

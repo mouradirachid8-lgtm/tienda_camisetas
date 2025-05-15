@@ -16,7 +16,7 @@ class User extends Authenticatable
 
     protected $fillable = [
         'DNI', 'nombre', 'apellidos', 'email', 'telefono', 'pais',
-        'localidad', 'direccion', 'modo_pago', 'fecha_registrado',
+        'localidad', 'direccion', 'modo_pago',
         'puntos_fidelidad', 'admin', 'password'
     ];
 
@@ -43,7 +43,6 @@ class User extends Authenticatable
     public function getTelefono(): string { return $this->telefono; }
     public function getDireccion(): string { return $this->direccion; }
     public function getModoPago(): string { return $this->modo_pago; }
-    public function getFecha(): string { return $this->fecha_registrado; }
     public function getPuntosFidelidad(): int { return $this->puntos_fidelidad; }
     public function getPassword(): string { return $this->password; }
 
