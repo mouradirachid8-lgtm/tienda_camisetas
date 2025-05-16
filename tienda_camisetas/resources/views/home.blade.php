@@ -1,161 +1,309 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DSS Champions</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+@extends('layouts.app')
+
+@section('content')
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 hero-content">
+                    <h1>Vive la Pasión del Fútbol</h1>
+                    <a href="#servicios" class="btn-hero"id="verMasBtn">Ver más</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Carrusel de Servicios -->
+    <section id="servicios" class="services-carousel py-5 bg-light">
+        <div class="container">
+            <!-- Encabezado -->
+            <!-- Encabezado -->
+            <div class="section-header text-center mb-4">
+                <h2 class="section-title h4 fw-semibold text-dark mb-0">Nuestros Servicios</h2>
+            </div>
+
+
+
+            <!-- Carrusel personalizado -->
+            <div class="custom-carousel">
+                <!-- Contenedor de slides -->
+                <div class="carousel-container">
+                    
+                    <!-- Slide 1 - Paseo de perros -->
+                    <div class="carousel-slide active">
+                        <img src="{{ asset('images/ofi.jpg') }}">
+                        <div class="carousel-caption">
+                            <h3>Autenticidad Garantizada</h3>
+                            <p>Productos oficiales</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 2 - Adopción -->
+                    <div class="carousel-slide">
+                        <img src="{{ asset('images/nar.jpg') }}">
+                        <div class="carousel-caption">
+                            <h3>Camisetas personalizadas</h3>
+                            <p>Personaliza tu camiseta</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Slide 3 - Tienda -->
+                    <div class="carousel-slide">
+                        <img src="{{ asset('images/de3.jpg') }}" class = "full-image" >
+                        <div class="carousel-caption express-text">
+                            <h3>Envío Express 24/48h</h3>
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                <!-- Controles -->
+                <button class="carousel-control prev" onclick="moveSlide(-1)">&#10094;</button>
+                <button class="carousel-control next" onclick="moveSlide(1)">&#10095;</button>
+                
+                <!-- Indicadores -->
+                <div class="carousel-indicators">
+                    <span class="indicator active" onclick="goToSlide(0)"></span>
+                    <span class="indicator" onclick="goToSlide(1)"></span>
+                    <span class="indicator" onclick="goToSlide(2)"></span>
+                    <span class="indicator" onclick="goToSlide(3)"></span>
+                </div>
+            </div>
+            
+            
+            <!-- CTA Final mejorado -->
+            <div class="text-center mt-5">
+                <a href="{{ route('catalogo') }}" class="btn btn-danger btn-sm px-4 py-2 fw-bold">
+                    <i class="fas fa-chevron-right me-2"></i> VER TODO EL CATÁLOGO
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacto Section -->
+    <section id="contacto" class="contact-section">
+        <div class="container">
+            <h2 class="text-center mb-5">Contáctanos</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <div class="h-100 w-100 rounded overflow-hidden shadow">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12573.016274839955!2d-0.5123524!3d38.383315!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6236c6a66f9d8b%3A0x3c2eef26b5a844e6!2sEstadio%20de%20Mestalla!5e0!3m2!1ses!2ses!4v1620000000000!5m2!1ses!2ses" 
+                            width="100%" 
+                            height="100%" 
+                            style="min-height: 400px; border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="contact-info">
+                        <div class="d-flex align-items-start mb-4">
+                            <i class="fas fa-map-marker-alt mt-1"></i>
+                            <div>
+                                <h4>Dirección</h4>
+                                <p>Escuela Politécnica Superior ,</br >
+                                    03690 San Vicente del Raspeig</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-4">
+                            <i class="fas fa-phone mt-1"></i>
+                            <div>
+                                <h4>Teléfono</h4>
+                                <p>+34 634 336 246</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start mb-4">
+                            <i class="fas fa-envelope mt-1"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>info@dsschampions.com</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-start">
+                            <i class="fas fa-clock mt-1"></i>
+                            <div>
+                                <h4>Horario</h4>
+                                <p>Lunes a Sábado: 9:00 - 20:00<br>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #e74c3c;
-            --light-color: #ecf0f1;
+        /* Estilos para el carrusel personalizado */
+        .custom-carousel {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 400px; /* Ajusta según necesites */
         }
         
-        .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://via.placeholder.com/1920x600') no-repeat center center;
-            background-size: cover;
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .carousel-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .carousel-caption {
+            position: absolute;
+            bottom: 20%;
+            left: 0;
+            right: 0;
+            background-color: rgba(0,0,0,0.5);
             color: white;
-            padding: 8rem 0;
+            padding: 15px;
             text-align: center;
         }
         
-        .search-bar {
-            max-width: 600px;
-            margin: 2rem auto;
-        }
-        
-        .product-card {
-            transition: transform 0.3s;
-            margin-bottom: 2rem;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .newsletter-section {
-            background-color: var(--light-color);
-            padding: 4rem 0;
-        }
-        
-        .footer {
-            background-color: var(--primary-color);
+        .carousel-control {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0,0,0,0.5);
             color: white;
-            padding: 3rem 0;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 18px;
+            z-index: 10;
+        }
+        
+        .carousel-control.prev {
+            left: 10px;
+        }
+        
+        .carousel-control.next {
+            right: 10px;
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+        
+        .indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.5);
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        
+        .indicator.active {
+            background-color: white;
+        }
+        /* Estilo específico para el texto de envío express */
+        .carousel-caption.express-text {
+            left: 20px; /* Posición desde la izquierda */
+            transform: none; /* Elimina el centrado anterior */
+            right: auto; /* Anula cualquier valor right heredado */
+            width: auto; /* Ancho automático según contenido */
+            max-width: 60%; /* Máximo ancho permitido */
+            text-align: left; /* Alineación del texto a la izquierda */
+            padding: 15px 20px;
+            background-color: rgba(0,0,0,0.7);
+            border-radius: 0 5px 5px 0; /* Bordes redondeados solo a la derecha */
+        }
+
+        /* Opcional: ajustar posición vertical si es necesario */
+        .carousel-caption.express-text {
+            bottom: 20%; /* Ajusta este valor según necesites */
         }
     </style>
-</head>
-<body>
-    <!-- Barra de navegación (placeholder) -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#">DSS Champions</a>
-            <div class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Buscar..." aria-label="Search">
-                <button class="btn btn-outline-light" type="submit">Buscar</button>
-            </div>
-        </div>
-    </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <h1 class="display-3 fw-bold mb-4">Tu equipo, tu estilo</h1>
-            <a href="/catalogo" class="btn btn-danger btn-lg px-5">Shop Now</a>
-        </div>
-    </section>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-slide');
+        const indicators = document.querySelectorAll('.indicator');
+        const container = document.querySelector('.carousel-container');
+        
+        // Función para mover el carrusel
+        function moveSlide(direction) {
+            currentSlide += direction;
+            
+            if (currentSlide < 0) {
+                currentSlide = slides.length - 1;
+            } else if (currentSlide >= slides.length) {
+                currentSlide = 0;
+            }
+            
+            updateCarousel();
+        }
+        
+        // Función para ir a un slide específico
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+        
+        // Actualizar el carrusel
+        function updateCarousel() {
+            container.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Actualizar indicadores
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentSlide);
+            });
+            
+            // Actualizar slides
+            slides.forEach((slide, index) => {
+                slide.classList.toggle('active', index === currentSlide);
+            });
+        }
+        
+        // Auto-play opcional
+        let autoPlay = setInterval(() => {
+            moveSlide(1);
+        }, 5000);
+        
+        // Pausar auto-play al interactuar
+        document.querySelector('.custom-carousel').addEventListener('mouseenter', () => {
+            clearInterval(autoPlay);
+        });
+        
+        document.querySelector('.custom-carousel').addEventListener('mouseleave', () => {
+            autoPlay = setInterval(() => {
+                moveSlide(1);
+            }, 5000);
+        });
 
-    <!-- Barra de búsqueda -->
-    <div class="search-bar">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Busca tu camiseta favorita...">
-            <button class="btn btn-dark" type="button">Buscar</button>
-        </div>
-    </div>
 
-    <!-- Productos -->
-    <section class="container my-5">
-        <h2 class="text-center mb-5 fw-bold">Descubre nuestras camisetas</h2>
-        <div class="row">
-            @for($i = 0; $i < 8; $i++)
-            <div class="col-md-3">
-                <div class="card product-card">
-                    <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Producto">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">PRODUCT NAME</h5>
-                        <p class="text-danger fw-bold">$300</p>
-                        <button class="btn btn-outline-dark btn-sm">Añadir al carrito</button>
-                    </div>
-                </div>
-            </div>
-            @endfor
-        </div>
-    </section>
+        // Función para scroll suave
+        document.getElementById('verMasBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const serviciosSection = document.getElementById('servicios');
+            const headerHeight = document.querySelector('header').offsetHeight || 80; // Altura del header o 80px por defecto
+            const sectionPosition = serviciosSection.getBoundingClientRect().top;
+            const offsetPosition = sectionPosition + window.pageYOffset - headerHeight;
 
-    <!-- Newsletter -->
-    <section class="newsletter-section">
-        <div class="container text-center">
-            <h2 class="mb-4 fw-bold">Newsletter</h2>
-            <p class="mb-4 lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla quam velit.</p>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Tu email">
-                        <button class="btn btn-danger" type="button">Subscribe</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <h5>MAIN MENU</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Home</a></li>
-                        <li><a href="#" class="text-white">About</a></li>
-                        <li><a href="#" class="text-white">Shop</a></li>
-                        <li><a href="#" class="text-white">Help</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5>COMPANY</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">The Company</a></li>
-                        <li><a href="#" class="text-white">Careers</a></li>
-                        <li><a href="#" class="text-white">Press</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5>DISCOVER</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">The Team</a></li>
-                        <li><a href="#" class="text-white">Our History</a></li>
-                        <li><a href="#" class="text-white">Brand Motto</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <h5>FIND US ON</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#" class="text-white">Facebook</a></li>
-                        <li><a href="#" class="text-white">X / Twitter</a></li>
-                        <li><a href="#" class="text-white">Instagram</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+        });
+    </script>
+@endsection

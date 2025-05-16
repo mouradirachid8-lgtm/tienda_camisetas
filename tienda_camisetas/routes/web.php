@@ -7,10 +7,12 @@ use App\Http\Controllers\PaginacionController;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarroController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('inicio');
-});
+//Route::get('/', function () {
+//  return view('home');
+//});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/login', function () {
     return view('login');
@@ -29,6 +31,7 @@ Route::get('/perfil', function () {
     return view('perfil');
 })->name('perfil');
 
+Route::get('/', [HomeController::class, 'index']);
 Route::get('/administrador', [AdministradorController::class, 'index'])->name('administrador');
 Route::put('/administrador/productos/editar/{id}', [AdministradorController::class, 'actualizarProducto'])->name('admin.actualizarProducto');
 Route::delete('/administrador/productos/eliminar/{id}', [AdministradorController::class, 'eliminarProducto'])->name('admin.eliminarProducto');
@@ -64,3 +67,14 @@ Route::get('/register', [AuthController::class, 'rellena_paises']);
     session()->regenerateToken(); // Evitar problemas de seguridad
     return redirect('/login'); // Redirigir a la página de inicio
 })->name('logout');*/
+
+
+
+// Contacto
+Route::get('/contacto', function () {
+    return view('contacto');
+})->name('contacto');
+
+Route::get('/about', function () {
+    return view('about');
+})->name('about');
