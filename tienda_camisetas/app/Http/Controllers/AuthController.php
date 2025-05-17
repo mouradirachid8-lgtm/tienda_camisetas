@@ -20,32 +20,25 @@ class AuthController extends Controller
     // Procesa el login
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string'
         ]);
 
-        // Buscar usuario en la base de datos
-        $usuario = User::where('email', $request->email)->first();
-
-        // Verificar si el usuario existe
-        if (!$usuario) {
-            return redirect()->route('login')->with('error', 'Correo o contraseña incorrectos.');
+        if (Auth::attempt($credentials, $request->remember)) {
+            $request->session()->regenerate(); // Importante para seguridad
+            
+            // Elimina esta línea si no es estrictamente necesaria
+            // session(['usuarioGlobal' => Auth::user()]);
+            
+            return $request->user()->admin
+                ? redirect()->route('administrador')
+                : redirect()->route('catalogo');
         }
 
-        // Verificar la contraseña
-        if (!Hash::check($request->password, $usuario->password)) {
-            return redirect()->route('login')->with('error', 'Correo o contraseña incorrectos.');
-        }
-
-        // Autenticar usuario
-        Auth::login($usuario);
-        session(['usuarioGlobal' => $usuario]);
-
-        // Redirigir según si es admin o no
-        return $usuario->admin
-            ? redirect()->route('administrador')
-            : redirect()->route('catalogo');
+        return back()->withErrors([
+            'email' => 'Credenciales incorrectas',
+        ]);
     }
 
 
@@ -68,7 +61,7 @@ class AuthController extends Controller
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellidos' => 'required|string|max:255',
-            'dni' => 'required|string|max:255',
+            'DNI' => 'required|string|max:255',
             'telefono' => 'required|string|max:20',
             'email' => 'required|string|email|max:255|unique:usuario',
             'password' => 'required|string|min:8|confirmed',
@@ -81,7 +74,7 @@ class AuthController extends Controller
         $user = User::create([
             'nombre' => $request->nombre,
             'apellidos' => $request->apellidos,
-            'dni' => $request->dni,
+            'DNI' => $request->DNI,
             'telefono' => $request->codigo_pais . $request->telefono,
             'email' => $request->email,
             'password' => Hash::make($request->password),
