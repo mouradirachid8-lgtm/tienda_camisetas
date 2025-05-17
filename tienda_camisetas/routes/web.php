@@ -69,13 +69,3 @@ Route::get('/register', [AuthController::class, 'rellena_paises']);
     return redirect('/login'); // Redirigir a la página de inicio
 })->name('logout');*/
 
-
-
-// Contacto
-Route::get('/contacto', function () {
-    return view('contacto');
-})->name('contacto');
-
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
