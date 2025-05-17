@@ -22,8 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        /*
         $usuario = new User();
         // Comparte el usuario autenticado con todas las vistas
-        View::share('usuarioGlobal', Auth::user());
+        View::share('usuarioGlobal', Auth::user());*/
     }
 }

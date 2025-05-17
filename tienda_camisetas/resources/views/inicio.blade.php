@@ -31,7 +31,7 @@
                     <i class="fas fa-shopping-cart text-white"></i> 
                     <span>Tu carro</span>
                 </a>
-                <a href="/" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
+                <a href="login" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Cerrar Sesión</span>
                 </a>
