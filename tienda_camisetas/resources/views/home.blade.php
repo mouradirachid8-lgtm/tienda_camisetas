@@ -17,7 +17,6 @@
     <section id="servicios" class="services-carousel py-5 bg-light">
         <div class="container">
             <!-- Encabezado -->
-            <!-- Encabezado -->
             <div class="section-header text-center mb-4">
                 <h2 class="section-title h4 fw-semibold text-dark mb-0">Nuestros Servicios</h2>
             </div>
@@ -29,7 +28,6 @@
                 <!-- Contenedor de slides -->
                 <div class="carousel-container">
                     
-                    <!-- Slide 1 - Paseo de perros -->
                     <div class="carousel-slide active">
                         <img src="{{ asset('images/ofi.jpg') }}">
                         <div class="carousel-caption">
@@ -38,7 +36,6 @@
                         </div>
                     </div>
                     
-                    <!-- Slide 2 - Adopción -->
                     <div class="carousel-slide">
                         <img src="{{ asset('images/nar.jpg') }}">
                         <div class="carousel-caption">
@@ -46,8 +43,7 @@
                             <p>Personaliza tu camiseta</p>
                         </div>
                     </div>
-                    
-                    <!-- Slide 3 - Tienda -->
+                
                     <div class="carousel-slide">
                         <img src="{{ asset('images/de3.jpg') }}" class = "full-image" >
                         <div class="carousel-caption express-text">
@@ -149,7 +145,7 @@
         .carousel-container {
             display: flex;
             transition: transform 0.5s ease;
-            height: 400px; /* Ajusta según necesites */
+            height: 400px; 
         }
         
         .carousel-slide {
@@ -231,7 +227,7 @@
 
         /* Opcional: ajustar posición vertical si es necesario */
         .carousel-caption.express-text {
-            bottom: 20%; /* Ajusta este valor según necesites */
+            bottom: 20%; 
         }
     </style>
 
