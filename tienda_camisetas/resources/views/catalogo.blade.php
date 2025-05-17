@@ -162,17 +162,19 @@
     
     <div class="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-4 gap-6 mt-6" id="product-list">
         @foreach ($productos as $index => $producto)
-            <a href="producto/{{ $producto->id }}" class="product-container product-item bg-blue-20" > <!--style="display: {{ $index < 20 ? 'block' : 'none' }};"> -->
-                <img class="w-full rounded-lg" src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}">
-                <h2 class="text-xl font-bold text-blue-50 mt-2">{{ $producto->nombre }}</h2>
-                <p class="text-lg font-semibold text-red-600 bg-yellow-200 p-2 inline-block rounded-lg">${{ $producto->precio }}</p>
-                <p class="text-sm text-gray-600">Descuento: <span class="font-semibold">{{ $producto->descuento }}%</span></p>
-                    @csrf
-                    <input type="hidden" name="producto_id" value="{{ $producto->id }}">
-                    <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-                        Agregar al carro
-                    </button>
-            </a>
+        <a href="producto/{{ $producto->id }}" class="product-container product-item bg-blue-20">
+            <div class="aspect-square  rounded-lg">
+                <img class="w-full h-full object-cover" src="{{ asset($producto->imagen) }}" alt="{{ $producto->nombre }}">
+            </div>
+            <h2 class="text-xl font-bold text-blue-50 mt-2">{{ $producto->nombre }}</h2>
+            <p class="text-lg font-semibold text-red-600 bg-yellow-200 p-2 inline-block rounded-lg">${{ $producto->precio }}</p>
+            <p class="text-sm text-gray-600">Descuento: <span class="font-semibold">{{ $producto->descuento }}%</span></p>
+            @csrf
+            <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+            <button type="submit" class="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+                Agregar al carro
+            </button>
+        </a>
         @endforeach
     </div>
 

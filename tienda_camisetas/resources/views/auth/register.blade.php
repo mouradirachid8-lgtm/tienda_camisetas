@@ -32,37 +32,65 @@
           @error('nombre') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
         
-        <!-- 1er Apellido -->
+        <!--ApellidoS -->
         <div class="mb-4">
-          <label class="block text-gray-700 font-semibold">1er Apellido <span class="text-blue-600">*</span></label>
-          <input type="text" name="apellido1" class="w-full px-4 py-2 border-2 rounded-lg bg-white focus:border-blue-400 outline-none" placeholder="Apellido 1" required>
-          @error('apellido1') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+          <label class="block text-gray-700 font-semibold">Apellidos <span class="text-blue-600">*</span></label>
+          <input type="text" name="apellidos" class="w-full px-4 py-2 border-2 rounded-lg bg-white focus:border-blue-400 outline-none" placeholder="Apellidos" required>
+          @error('apellidos') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
         
-        <!-- 2º Apellido -->
+        <!--DNI -->
         <div class="mb-4">
-          <label class="block text-gray-700 font-semibold">2º Apellido</label>
-          <input type="text" name="apellido2" class="w-full px-4 py-2 border-2 rounded-lg bg-white focus:border-blue-400 outline-none" placeholder="Apellido 2">
-          @error('apellido2') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+          <label class="block text-gray-700 font-semibold">DNI <span class="text-blue-600">*</span></label>
+          <input type="text" name="dni" class="w-full px-4 py-2 border-2 rounded-lg bg-white focus:border-blue-400 outline-none" placeholder="DNI" required>
+          @error('dni') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
-        
-        <!-- Teléfono móvil -->
+
+        <!--Pais -->
         <div class="mb-4">
-          <label class="block text-gray-700 font-semibold">Teléfono móvil</label>
-          <div class="flex">
-            <select name="codigo_pais" class="form-control px-4 py-2 border-2 rounded-l-lg bg-white focus:border-blue-400 outline-none">
-              @foreach($paises as $pais)
-                  <option value="{{ $pais['codigo'] }}" title="{{ $pais['nombre'] }}">
-                      {{ $pais['codigo'] }}
-                  </option>
-              @endforeach
-          </select>
-            <input type="tel" name="telefono" class="w-full px-4 py-2 border-2 border-l-0 rounded-r-lg bg-white focus:border-blue-400 outline-none" placeholder="Teléfono">
-          </div>
-          @error('telefono') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+          <label class="block text-gray-700 font-semibold">País <span class="text-blue-600">*</span></label>
+          <input type="text" name="pais" class="w-full px-4 py-2 border-2 rounded-lg bg-white focus:border-blue-400 outline-none" placeholder="país" required>
+          @error('pais') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+        </div>
+
+        <!--Localidad -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-semibold">Localidad <span class="text-blue-600">*</span></label>
+          <input type="text" name="localidad" class="w-full px-4 py-2 border-2 rounded-lg bg-white focus:border-blue-400 outline-none" placeholder="localidad" required>
+          @error('localidad') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+        </div>
+
+        <!--Localidad -->
+        <div class="mb-4">
+          <label class="block text-gray-700 font-semibold">Direccion <span class="text-blue-600">*</span></label>
+          <input type="text" name="direccion" class="w-full px-4 py-2 border-2 rounded-lg bg-white focus:border-blue-400 outline-none" placeholder="Dereccion" required>
+          @error('direccion') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
       </div>
+
+      <!-- Teléfono móvil -->
+      <div class="mb-6">
+        <label class="block text-gray-700 font-semibold">Teléfono móvil <span class="text-blue-600">*</span></label>
+        <div class="flex">
+          <select name="codigo_pais" class="form-control px-4 py-2 border-2 rounded-l-lg bg-white focus:border-blue-400 outline-none">
+            @foreach($paises as $pais)
+                <option value="{{ $pais['codigo'] }}" title="{{ $pais['nombre'] }}">
+                    {{ $pais['codigo'] }}
+                </option>
+            @endforeach
+        </select>
+          <input type="tel" name="telefono" class="w-full px-4 py-2 border-2 border-l-0 rounded-r-lg bg-white focus:border-blue-400 outline-none" placeholder="Teléfono">
+        </div>
+        @error('telefono') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+      </div>
       
+      <!-- Correo Electrónico -->
+      <div class="mb-6">
+        <label class="block text-gray-700 font-semibold">Correo Electrónico <span class="text-blue-600">*</span></label>
+        <input type="email" name="email" class="w-full px-4 py-2 border-2 rounded-lg bg-white focus:border-blue-400 outline-none" placeholder="Correo Electrónico" required>
+        @error('email') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
+      </div>
+
       <!-- Contraseña -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="mb-4">
@@ -77,13 +105,6 @@
           <input type="password" name="password_confirmation" class="w-full px-4 py-2 border-2 rounded-lg bg-white focus:border-blue-400 outline-none" placeholder="Contraseña" required>
           @error('password_confirmation') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
         </div>
-      </div>
-      
-      <!-- Correo Electrónico -->
-      <div class="mb-6">
-        <label class="block text-gray-700 font-semibold">Correo Electrónico <span class="text-blue-600">*</span></label>
-        <input type="email" name="email" class="w-full px-4 py-2 border-2 rounded-lg bg-white focus:border-blue-400 outline-none" placeholder="Correo Electrónico" required>
-        @error('email') <p class="text-red-500 text-sm">{{ $message }}</p> @enderror
       </div>
       
       <div class="mt-6">
