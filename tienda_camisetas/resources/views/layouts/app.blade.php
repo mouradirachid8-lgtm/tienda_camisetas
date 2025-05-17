@@ -90,7 +90,7 @@
         .hero-section {
             height: 100vh; 
             min-height: 300px;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/images/port4.jpg');
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('/images/a.jpg');
             background-size: cover;
             background-position: center;
             display: flex;
