@@ -29,7 +29,7 @@ Route::get('/perfil', function () {
     return view('perfil');
 })->name('perfil');
 
-Route::middleware(['admin'])->group(function(){
+Route::middleware('auth')->group(function(){
     Route::get('/administrador', [AdministradorController::class, 'index'])->name('administrador');
     Route::put('/administrador/productos/editar/{id}', [AdministradorController::class, 'actualizarProducto'])->name('admin.actualizarProducto');
     Route::delete('/administrador/productos/eliminar/{id}', [AdministradorController::class, 'eliminarProducto'])->name('admin.eliminarProducto');
@@ -72,3 +72,6 @@ Route::get('/logout', function () {
     session()->regenerateToken(); // Evitar problemas de seguridad
     return redirect('/login'); // Redirigir a la página de inicio
 })->name('logout');
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
