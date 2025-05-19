@@ -49,10 +49,18 @@
                     <i class="fas fa-shopping-cart text-white"></i> 
                     <span>Tu carro</span>
                 </a>
-                <a href="/" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
-                    <i class="fa fa-sign-out-alt"></i>
-                    <span>Cerrar Sesión</span>
-                </a>
+                @auth
+                    <a href="/" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
+                        <i class="fa fa-sign-out-alt"></i>
+                        <span>Cerrar Sesión</span>
+                    </a>
+                @endauth
+                @guest
+                    <a href="/login" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
+                        <i class="fa fa-sign-in-alt"></i>
+                        <span>Iniciar Sesión</span>
+                    </a>
+                @endguest
             </div>
         </div>
     </header>
