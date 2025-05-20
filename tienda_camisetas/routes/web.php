@@ -29,6 +29,16 @@ Route::get('/perfil', function () {
     return view('perfil');
 })->name('perfil');
 
+Route::get('/contact', function () {
+    return view('contacto');
+})->name('contacto');
+
+use App\Http\Controllers\ContactoController;
+
+Route::get('/contact', [ContactoController::class, 'index'])->name('contacto');
+Route::post('/contact', [ContactoController::class, 'store'])->name('contacto.store');
+
+Route::post('/contacto/enviar', [ContactoController::class, 'enviar'])->name('contacto.enviar');
 Route::middleware(['admin'])->group(function(){
     Route::get('/administrador', [AdministradorController::class, 'index'])->name('administrador');
     Route::put('/administrador/productos/editar/{id}', [AdministradorController::class, 'actualizarProducto'])->name('admin.actualizarProducto');
