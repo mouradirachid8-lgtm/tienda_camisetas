@@ -21,24 +21,20 @@ Route::get('/register', function () {
 })->name('register');
 
 
-Route::get('/carro', function () {
+Route::get('/carrito', function () {
     return view('carrito');
 })->name('carro');
-
-
-
-
 
 
 Route::get('/perfil', function () {
     return view('perfil');
 })->name('perfil');
 
-Route::middleware(['admin'])->group(function(){
+Route::middleware(['auth'])->group(function () {
     Route::get('/administrador', [AdministradorController::class, 'index'])->name('administrador');
     Route::put('/administrador/productos/editar/{id}', [AdministradorController::class, 'actualizarProducto'])->name('admin.actualizarProducto');
     Route::delete('/administrador/productos/eliminar/{id}', [AdministradorController::class, 'eliminarProducto'])->name('admin.eliminarProducto');
-    Route::post('/administrador/productos/crear', [AdministradorController::class, 'crearProducto'])->name('admin.crearProducto'); 
+    Route::post('/administrador/productos/crear', [AdministradorController::class, 'crearProducto'])->name('admin.crearProducto');
 
     Route::post('/administrador/proveedores', [AdministradorController::class, 'crearProveedor'])->name('admin.crearProveedor');
     Route::put('/administrador/proveedores/{id}', [AdministradorController::class, 'actualizarProveedor'])->name('admin.actualizarProveedor');
@@ -47,12 +43,6 @@ Route::middleware(['admin'])->group(function(){
     Route::post('/administrador/equipos', [AdministradorController::class, 'crearEquipo'])->name('admin.crearEquipo');
     Route::put('/administrador/equipos/{id}', [AdministradorController::class, 'actualizarEquipo'])->name('admin.actualizarEquipo');
     Route::delete('/administrador/equipos/{id}', [AdministradorController::class, 'eliminarEquipo'])->name('admin.eliminarEquipo');
-
-    Route::get('/carrito', [CarroController::class, 'mostrarCarrito'])->name('carrito');
-    Route::post('/carrito/agregar/{producto_id}', [CarroController::class, 'agregarAlCarrito'])->name('carrito.agregar');
-    Route::patch('/carrito/actualizar/{producto_id}', [CarroController::class, 'actualizarCantidad'])->name('carrito.actualizar');
-    Route::delete('/carrito/eliminar/{producto_id}', [CarroController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
-    Route::delete('/carrito/vaciar', [CarroController::class, 'vaciarCarrito'])->name('carrito.vaciar');
 });
 
 Route::get('/catalogo', [PaginacionController::class, 'index'])->name('catalogo');
@@ -62,8 +52,12 @@ Route::get('/catalogo/filtrar', [CatalogoController::class, 'filtrarProductos'])
 // Rutas para los productos
 Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('producto.show');
 
-// Ruta para agregar al carrito (complementaria a la vista del producto)
-Route::post('/carrito/agregar', [CarroController::class, 'agregar'])->name('carrito.agregar');
+// Rutas para el carrito
+Route::get('/carrito', [CarroController::class, 'mostrarCarrito'])->name('carrito');
+Route::post('/carrito/agregar/{producto_id}', [CarroController::class, 'agregarAlCarrito'])->name('carrito.agregar');
+Route::patch('/carrito/actualizar/{producto_id}', [CarroController::class, 'actualizarCantidad'])->name('carrito.actualizar');
+Route::delete('/carrito/eliminar/{producto_id}', [CarroController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
+Route::delete('/carrito/vaciar', [CarroController::class, 'vaciarCarrito'])->name('carrito.vaciar');
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.auth');

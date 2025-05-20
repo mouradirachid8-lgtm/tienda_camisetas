@@ -25,8 +25,26 @@ class CarroController extends Controller
 
     public function agregarAlCarrito(Request $request, $producto_id)
     {
-        // Usuario autenticado
+        // Verificar si el usuario está autenticado
+        if (!Auth::check()) {
+            // Guardar el producto en la sesión y redirigir al login
+            session()->put('producto_pendiente', $producto_id);
+            session()->put('cantidad_pendiente', $request->input('cantidad', 1));
+            session()->put('url_anterior', url()->previous());
+
+            return redirect()->route('login')
+                ->with('message', 'Para añadir productos al carrito, primero debes iniciar sesión');
+        }
+
+        // Validar la cantidad
+        $request->validate([
+            'cantidad' => 'required|integer|min:1'
+        ]);
+
+        $cantidad = $request->input('cantidad', 1);
         $user = Auth::user();
+
+        // Ahora podemos acceder a $user->DNI con seguridad
         $carrito = Carrito::firstOrCreate(['user_dni' => $user->DNI]);
         $producto = Producto::findOrFail($producto_id);
 
@@ -35,24 +53,28 @@ class CarroController extends Controller
             return back()->with('error', 'El producto no está disponible.');
         }
 
+        // Verificar si hay suficiente stock para la cantidad solicitada
+        if ($producto->stock < $cantidad) {
+            return back()->with('error', 'No hay suficiente stock disponible. Stock actual: ' . $producto->stock);
+        }
+
         // Verificar si el producto ya existe en el carrito
         $itemExistente = $carrito->productos()->where('producto_id', $producto_id)->first();
 
         if ($itemExistente) {
-            // Si ya existe, aumentar la cantidad en 1
-            $nuevaCantidad = $itemExistente->pivot->cantidad + 1;
+            // Si ya existe, actualizar la cantidad
+            $nuevaCantidad = $itemExistente->pivot->cantidad + $cantidad;
 
-            // Verificar stock para la cantidad actualizada
             if ($nuevaCantidad > $producto->stock) {
-                return back()->with('error', 'No hay más unidades disponibles de este producto.');
+                return back()->with('error', 'La cantidad total excedería el stock disponible.');
             }
 
             $carrito->productos()->updateExistingPivot($producto_id, [
                 'cantidad' => $nuevaCantidad
             ]);
         } else {
-            // Si no existe, añadirlo con cantidad 1
-            $carrito->productos()->attach($producto_id, ['cantidad' => 1]);
+            // Si no existe, añadirlo con la cantidad especificada
+            $carrito->productos()->attach($producto_id, ['cantidad' => $cantidad]);
         }
 
         return back()->with('success', 'Producto añadido al carrito');

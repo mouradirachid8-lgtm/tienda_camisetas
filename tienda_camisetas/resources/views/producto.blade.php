@@ -38,11 +38,11 @@
           
           <div class="flex items-center mb-6 border-b border-gray-100 pb-4">
             @if($producto->descuento > 0)
-              <h3 class="text-3xl font-bold text-red-600 mr-3">€{{ $producto->aplicar_descuento() }}</h3>
-              <h5 class="text-lg text-gray-400 line-through">€{{ $producto->precio }}</h5>
+              <h3 class="text-3xl font-bold text-red-600 mr-3">{{ $producto->aplicar_descuento() }}€</h3>
+              <h5 class="text-lg text-gray-400 line-through">{{ $producto->precio }}€</h5>
               <span class="ml-3 bg-red-600 text-white px-3 py-1 text-xs font-bold rounded-full">-{{ $producto->descuento }}%</span>
             @else
-              <h3 class="text-3xl font-bold text-gray-800">€{{ $producto->precio }}</h3>
+              <h3 class="text-3xl font-bold text-gray-800">{{ $producto->precio }}€</h3>
             @endif
           </div>
           
@@ -84,7 +84,7 @@
           </div>
           
           @if($producto->es_disponible())
-            <form action="{{ route('carrito.agregar') }}" method="POST" class="mt-6">
+            <form action="{{ route('carrito.agregar', $producto->id) }}" method="POST" class="mt-6">
               @csrf
               <input type="hidden" name="producto_id" value="{{ $producto->id }}">
               <div class="flex items-end gap-4 mb-6">
