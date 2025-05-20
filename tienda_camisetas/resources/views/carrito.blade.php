@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carro</title>
+    <title>Carrito</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
@@ -41,7 +41,7 @@
                     <!-- Icono de carrito -->
                     <a href="" class="bg-orange-500 px-4 py-2 rounded p-4 text-white flex items-center gap-2 transform transition-transform duration-200 hover:scale-110">
                         <i class="fas fa-shopping-cart text-white"></i> 
-                        <span>Tu carro</span>
+                        <span>Tu carrito</span>
                     </a>
                     <a href="/" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
                         <i class="fa fa-sign-out-alt"></i>

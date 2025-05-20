@@ -9,13 +9,13 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $table = 'usuario';
-    protected $primaryKey = 'DNI';
+    protected $table = 'users';
+    protected $primaryKey = 'dni';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'DNI', 'nombre', 'apellidos', 'email', 'telefono', 'pais',
+        'dni', 'nombre', 'apellidos', 'email', 'telefono', 'pais',
         'localidad', 'direccion', 'modo_pago',
         'puntos_fidelidad', 'admin', 'password'
     ];
@@ -32,7 +32,7 @@ class User extends Authenticatable
 
     public function carrito()
     {
-        return $this->hasOne(Carrito::class, 'user_dni', 'DNI');
+        return $this->hasOne(Carrito::class, 'user_dni', 'dni');
     }
 
     // Métodos adicionales

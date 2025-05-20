@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carrito', function (Blueprint $table) {
+        Schema::create('accesorio', function (Blueprint $table) {
             $table->id();
-            $table->string('user_dni'); // Changed to string to match the 'dni' column in 'usuarios'
+            $table->string('nombre');
+            $table->float('precio');
+            $table->string('descripcion');
             $table->timestamps();
-
-            // Foreign key constraint
-            $table->foreign('user_dni')->references('dni')->on('users');
         });
     }
 
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carrito');
+        Schema::dropIfExists('accesorio');
     }
 };
