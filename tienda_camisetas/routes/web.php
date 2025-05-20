@@ -7,6 +7,7 @@ use App\Http\Controllers\PaginacionController;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarroController;
+use App\Http\Controllers\ContactoController;
 
 Route::get('/', function () {
     return view('inicio');
@@ -30,18 +31,18 @@ Route::get('/perfil', function () {
     return view('perfil');
 })->name('perfil');
 
-Route::middleware('auth')->group(function () {
+
 Route::get('/contact', function () {
     return view('contacto');
 })->name('contacto');
 
-use App\Http\Controllers\ContactoController;
+
 
 Route::get('/contact', [ContactoController::class, 'index'])->name('contacto');
 Route::post('/contact', [ContactoController::class, 'store'])->name('contacto.store');
 
 Route::post('/contacto/enviar', [ContactoController::class, 'enviar'])->name('contacto.enviar');
-Route::middleware(['admin'])->group(function(){
+Route::middleware(['auth'])->group(function(){
     Route::get('/administrador', [AdministradorController::class, 'index'])->name('administrador');
     Route::put('/administrador/productos/editar/{id}', [AdministradorController::class, 'actualizarProducto'])->name('admin.actualizarProducto');
     Route::delete('/administrador/productos/eliminar/{id}', [AdministradorController::class, 'eliminarProducto'])->name('admin.eliminarProducto');
