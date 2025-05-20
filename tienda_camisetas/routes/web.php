@@ -30,25 +30,20 @@ Route::get('/perfil', function () {
     return view('perfil');
 })->name('perfil');
 
-Route::middleware('auth')->group(function(){
+Route::middleware('auth')->group(function () {
     Route::get('/administrador', [AdministradorController::class, 'index'])->name('administrador');
     Route::put('/administrador/productos/editar/{id}', [AdministradorController::class, 'actualizarProducto'])->name('admin.actualizarProducto');
     Route::delete('/administrador/productos/eliminar/{id}', [AdministradorController::class, 'eliminarProducto'])->name('admin.eliminarProducto');
-    Route::post('/administrador/productos/crear', [AdministradorController::class, 'crearProducto'])->name('admin.crearProducto'); 
-// Route::middleware(['auth'])->group(function () {
-Route::get('/administrador', [AdministradorController::class, 'index'])->name('administrador');
-Route::put('/administrador/productos/editar/{id}', [AdministradorController::class, 'actualizarProducto'])->name('admin.actualizarProducto');
-Route::delete('/administrador/productos/eliminar/{id}', [AdministradorController::class, 'eliminarProducto'])->name('admin.eliminarProducto');
-Route::post('/administrador/productos/crear', [AdministradorController::class, 'crearProducto'])->name('admin.crearProducto');
+    Route::post('/administrador/productos/crear', [AdministradorController::class, 'crearProducto'])->name('admin.crearProducto');
 
-Route::post('/administrador/proveedores', [AdministradorController::class, 'crearProveedor'])->name('admin.crearProveedor');
-Route::put('/administrador/proveedores/{id}', [AdministradorController::class, 'actualizarProveedor'])->name('admin.actualizarProveedor');
-Route::delete('/administrador/proveedores/{id}', [AdministradorController::class, 'eliminarProveedor'])->name('admin.eliminarProveedor');
+    Route::post('/administrador/proveedores', [AdministradorController::class, 'crearProveedor'])->name('admin.crearProveedor');
+    Route::put('/administrador/proveedores/{id}', [AdministradorController::class, 'actualizarProveedor'])->name('admin.actualizarProveedor');
+    Route::delete('/administrador/proveedores/{id}', [AdministradorController::class, 'eliminarProveedor'])->name('admin.eliminarProveedor');
 
-Route::post('/administrador/equipos', [AdministradorController::class, 'crearEquipo'])->name('admin.crearEquipo');
-Route::put('/administrador/equipos/{id}', [AdministradorController::class, 'actualizarEquipo'])->name('admin.actualizarEquipo');
-Route::delete('/administrador/equipos/{id}', [AdministradorController::class, 'eliminarEquipo'])->name('admin.eliminarEquipo');
-// });
+    Route::post('/administrador/equipos', [AdministradorController::class, 'crearEquipo'])->name('admin.crearEquipo');
+    Route::put('/administrador/equipos/{id}', [AdministradorController::class, 'actualizarEquipo'])->name('admin.actualizarEquipo');
+    Route::delete('/administrador/equipos/{id}', [AdministradorController::class, 'eliminarEquipo'])->name('admin.eliminarEquipo');
+});
 
 Route::get('/catalogo', [PaginacionController::class, 'index'])->name('catalogo');
 Route::get('/catalogo/buscar', [CatalogoController::class, 'search_request'])->name('catalogo.buscar');
