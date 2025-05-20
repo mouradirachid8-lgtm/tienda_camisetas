@@ -14,7 +14,7 @@ class UsuarioSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('usuario')->insert([
+        DB::table('users')->insert([
             [
                 'DNI' => '80464283C',
                 'nombre' => 'Admin',

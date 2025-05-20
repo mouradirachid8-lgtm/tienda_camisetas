@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Foreign key constraint
-            $table->foreign('user_dni')->references('dni')->on('usuario');
+            $table->foreign('user_dni')->references('dni')->on('users');
         });
     }
 

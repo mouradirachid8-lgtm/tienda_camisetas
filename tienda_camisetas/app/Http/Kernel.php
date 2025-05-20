@@ -18,6 +18,11 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'admin' => \App\Http\Middleware\CustomAuthenticate::class,
     ];
+
+    protected $middlewareAliases = [
+        // ...
+        'admin' => \App\Http\Middleware\CustomAuthenticate::class,
+    ];
     
     // ... resto de propiedades y métodos de la clase Kernel
 }

@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuario', function (Blueprint $table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->string('dni')->primary();
             $table->string('nombre');
-            $table->string('apellidos');
+            $table->string('apellidos')->nullable();
             $table->string('email')->unique();
-            $table->string('telefono');
-            $table->string('pais');
-            $table->string('localidad');
-            $table->string('direccion');
-            $table->string('modo_pago');
+            $table->string('telefono')->nullable();
+            $table->string('pais')->nullable();
+            $table->string('localidad')->nullable();
+            $table->string('direccion')->nullable();
+            $table->string('modo_pago')->nullable();
             $table->string('password');
             $table->integer('puntos_fidelidad')->default(0);
             $table->boolean('admin')->default(false);
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuario');
+        Schema::dropIfExists('users');
     }
 };
