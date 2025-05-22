@@ -36,41 +36,7 @@
     </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Header -->
-    <header class="bg-[#2c3e50] shadow-lg px-4 py-7">
-        <div class="max-w-7xl mx-auto flex justify-between items-center space-x-6 relative">
-            <div class="absolute left-0 top-1/2 transform -translate-y-1/2">
-                <img src="{{ asset('images/logo.jpg') }}" alt="Icono" class="w-12 h-12 rounded-full">
-            </div>
-
-            <form class="pl-20" action="{{ route('catalogo.buscar') }}" method="GET" class="flex-1 mx-auto">
-                <input type="text" name="query" 
-                    class="w-full h-9 bg-transparent text-gray-400 border border-orange-500 rounded-full px-4 focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="Buscar productos..." required>
-                <button type="submit" class="hidden">Buscar</button>
-            </form>
-
-            <nav class="flex items-center text-white space-x-8">
-                <a href="/" class="hover:text-orange-500">Home</a>
-                <span class="text-white">|</span>
-                <a href="/about" class="hover:text-orange-500">About</a>
-                <span class="text-white">|</span>
-                <a href="/shop" class="hover:text-orange-500">Shop</a>
-                <span class="text-white">|</span>
-                <a href="/contact" class="text-orange-500 font-bold">Contact</a>
-            </nav>
-            
-            <div class="flex gap-6 items-center ml-auto">
-                <a href="carro" class="bg-orange-500 px-4 py-2 rounded p-4 text-white flex items-center gap-2 transform transition-transform duration-200 hover:scale-110">
-                    <i class="fas fa-shopping-cart text-white"></i> 
-                    <span>Tu carro</span>
-                </a>
-                <a href="/" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
-                    <i class="fa fa-sign-out-alt"></i>
-                    <span>Cerrar Sesión</span>
-                </a>
-            </div>
-        </div>
-    </header>
+    @include('layouts.partials.header')
 
     <!-- Hero Section -->
     <section class="contact-hero py-16">
@@ -195,48 +161,8 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-[#2c3e50] text-white py-8">
-        <div class="max-w-7xl mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="h-12 w-12 rounded-full">
-                    <p class="mt-2 text-gray-300">La mejor tienda de camisetas de fútbol</p>
-                </div>
-
-                <!-- Enlaces rápidos -->
-                <div class="mt-6 md:mt-0 text-center md:text-left">
-                    <h3 class="text-lg font-bold text-orange-400 mb-3">Enlaces rápidos</h3>
-                    <div class="flex flex-col md:flex-row md:space-x-6 text-base font-semibold text-gray-300">
-                        <a href="/" class="hover:text-white transition mb-2 md:mb-0">Inicio</a>
-                        <a href="/catalogo" class="hover:text-white transition mb-2 md:mb-0">Tienda</a>
-                        <a href="/personalizar" class="hover:text-white transition">Personalización</a>
-                    </div>
-                </div>
-
-                
-                <div class="flex space-x-6">
-                    <a href="#" class="text-gray-300 hover:text-white">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="text-gray-300 hover:text-white">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="text-gray-300 hover:text-white">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="text-gray-300 hover:text-white">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                </div>
-            </div>
-            
-            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
-                <p>&copy; 2025 DSS Champions. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
+    
+    @include('layouts.partials.footer')
     <script>
         // Simple FAQ toggle functionality
         document.querySelectorAll('.faq button').forEach(button => {

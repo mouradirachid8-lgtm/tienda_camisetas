@@ -1,46 +1,39 @@
-<footer class="bg-blue-950 text-white py-8">
-    <div class="max-w-7xl mx-auto px-6">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-                <h3 class="text-lg font-bold mb-4 text-orange-400">Sobre nosotros</h3>
-                <p class="text-blue-200">Vendemos camisetas oficiales de fútbol y permitimos personalizarlas según tus preferencias.</p>
+<footer class="bg-[#2c3e50] text-white py-8">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="mb-4 md:mb-0">
+                <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="h-12 w-12 rounded-full">
+                <p class="mt-2 text-gray-300">La mejor tienda de camisetas de fútbol</p>
             </div>
-            <div>
-                <h3 class="text-lg font-bold mb-4 text-orange-400">Enlaces rápidos</h3>
-                <ul class="space-y-2">
-                    <li><a href="/" class="text-blue-200 hover:text-orange-400">Inicio</a></li>
-                    <li><a href="/catalogo" class="text-blue-200 hover:text-orange-400">Tienda</a></li>
-                    <li><a href="/personalizar" class="text-blue-200 hover:text-orange-400">Personalización</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-lg font-bold mb-4 text-orange-400">Legal</h3>
-                <ul class="space-y-2">
-                    <li><p class="text-blue-200 hover:text-orange-400 cursor pointer">Términos y condiciones</p></li>
-                    <li><p class="text-blue-200 hover:text-orange-400 cursor pointer">Política de privacidad</a></li>
-                    <li><p class="text-blue-200 hover:text-orange-400 cursor pointer">Política de devoluciones</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="text-lg font-bold mb-4 text-orange-400">Síguenos</h3>
-                <div class="flex space-x-4 justify-center md:justify-start">
-                    <a href="#" class="bg-blue-800 p-3 rounded-full hover:bg-orange-500 transition">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="bg-blue-800 p-3 rounded-full hover:bg-orange-500 transition">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="bg-blue-800 p-3 rounded-full hover:bg-orange-500 transition">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#" class="bg-blue-800 p-3 rounded-full hover:bg-orange-500 transition">
-                        <i class="fab fa-tiktok"></i>
-                    </a>
+
+            <!-- Enlaces rápidos -->
+            <div class="mt-6 md:mt-0 text-center md:text-left">
+                <h3 class="text-lg font-bold text-orange-400 mb-3">Enlaces rápidos</h3>
+                <div class="flex flex-col md:flex-row md:space-x-6 text-base font-semibold text-gray-300">
+                    <a href="/" class="hover:text-white transition mb-2 md:mb-0">Inicio</a>
+                    <a href="/catalogo" class="hover:text-white transition mb-2 md:mb-0">Tienda</a>
+                    <a href="/personalizar" class="hover:text-white transition">Personalización</a>
                 </div>
             </div>
+
+            <div class="flex space-x-6">
+                <a href="#" class="text-gray-300 hover:text-white">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="text-gray-300 hover:text-white">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="text-gray-300 hover:text-white">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-gray-300 hover:text-white">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
         </div>
-        <div class="border-t border-blue-800 mt-8 pt-6 text-center text-blue-300">
-            <p>&copy; {{ date('Y') }} Tienda de Camisetas de Fútbol. Todos los derechos reservados.</p>
+        
+        <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
+            <p>&copy; {{ now()->year }} DSS Champions. Todos los derechos reservados.</p>
         </div>
     </div>
 </footer>
