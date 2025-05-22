@@ -451,7 +451,7 @@
                         <div class="jersey-container">
                             <img src="{{ asset('escudos/camiseta-blanca-atras.png') }}" alt="Camiseta trasera" class="jersey-image" id="jerseyBackImage">
                             <div class="jersey-number" id="jerseyBackNumber">7</div>
-                            <div class="jersey-name" id="jerseyBackName">TRASERO</div>
+                            <div class="jersey-name" id="jerseyBackName">NOMBRE</div>
                         </div>
                     </div>
                 </div>
@@ -656,9 +656,8 @@
             document.querySelectorAll('.escudo-options .logo-option').forEach(opt => opt.classList.remove('selected'));
         });
 
-        // =============================================
+
         // NUEVO CÓDIGO PARA SELECCIÓN DE EQUIPO BASE
-        // =============================================
         document.querySelectorAll('.team-options .logo-option').forEach(option => {
             option.addEventListener('click', function() {
                 // Quitar selección de otros equipos
@@ -689,9 +688,6 @@
             });
         });
 
-        // =============================================
-        // CÓDIGO ORIGINAL (con modificaciones para las pestañas)
-        // =============================================
         // Selección de marca
         document.querySelectorAll('.marca-options .logo-option').forEach(option => {
             option.addEventListener('click', function() {
