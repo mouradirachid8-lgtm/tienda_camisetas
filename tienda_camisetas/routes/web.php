@@ -36,6 +36,9 @@ Route::get('/contact', function () {
     return view('contacto');
 })->name('contacto');
 
+Route::get('/personalizar', function () {
+    return view('personalizar');
+})->name('personalizar');
 
 Route::post('/contacto/enviar', [ContactoController::class, 'enviar'])->name('contacto.enviar');
 
