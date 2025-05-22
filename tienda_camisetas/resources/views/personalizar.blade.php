@@ -350,11 +350,38 @@
             color: #7f8c8d;
             border-bottom: 3px solid transparent;
             transition: all 0.3s;
+            position: relative;
         }
         
         .tab.active {
             color: var(--secondary-color);
             border-bottom: 3px solid var(--secondary-color);
+        }
+        
+        .tab.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .tab.disabled::after {
+            content: "(Solo disponible para camiseta blanca)";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            display: none;
+        }
+        
+        @media (min-width: 768px) {
+            .tab.disabled:hover::after {
+                display: block;
+            }
         }
         
         .tab-content {
@@ -363,6 +390,23 @@
         
         .tab-content.active {
             display: block;
+        }
+
+        /* Nuevos estilos para botones de eliminar */
+        .remove-btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: all 0.2s;
+        }
+        
+        .remove-btn:hover {
+            background-color: #c0392b;
         }
         
         @media (max-width: 768px) {
@@ -413,6 +457,29 @@
                 </div>
             </div>
             
+            <!-- NUEVA SECCIÓN AÑADIDA PARA SELECCIÓN DE EQUIPO -->
+            <div class="controls-section">
+                <div class="controls-container">
+                    <div class="controls">
+                        <h3>Selección de Equipo</h3>
+                        <div class="control-group">
+                            <label>Elige el diseño base:</label>
+                            <div class="logo-options team-options">
+                                <img src="{{ asset('escudos/blanca.png') }}" class="logo-option selected" data-team="blanca" data-type="team" title="Blanca">
+                                <img src="{{ asset('escudos/madrid.png') }}" class="logo-option" data-team="madrid" data-type="team" title="Real Madrid">
+                                <img src="{{ asset('escudos/bar.png') }}" class="logo-option" data-team="barca" data-type="team" title="Barcelona">
+                                <img src="{{ asset('escudos/arse.png') }}" class="logo-option" data-team="arsenal" data-type="team" title="Arsenal">
+                                <img src="{{ asset('escudos/aston.png') }}" class="logo-option" data-team="astonvilla" data-type="team" title="Aston Villa">
+                                <img src="{{ asset('escudos/8.png') }}" class="logo-option" data-team="bayern" data-type="team" title="Bayern Munich">
+                                <img src="{{ asset('escudos/dor.png') }}" class="logo-option" data-team="dortmund" data-type="team" title="Borussia Dortmund">
+                                <img src="{{ asset('escudos/pa.png') }}" class="logo-option" data-team="psg" data-type="team" title="PSG">
+                                <img src="{{ asset('escudos/int.png') }}" class="logo-option" data-team="inter" data-type="team" title="Inter de Milán">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="controls-section">
                 <div class="tabs">
                     <div class="tab active" data-tab="front">Personalización Frontal</div>
@@ -433,6 +500,7 @@
                                     <img src="{{ asset('logos/emirates.png') }}" class="logo-option" data-logo="emirates" data-type="marca" title="Emirates">
                                     <img src="{{ asset('logos/umbro.png') }}" class="logo-option" data-logo="umbro" data-type="marca" title="Umbro">
                                 </div>
+                                <button class="remove-btn" id="removeMarcaBtn">Quitar Marca</button>
                             </div>
                             
                             <div class="control-group">
@@ -460,6 +528,7 @@
                                     <img src="{{ asset('escudos/pa.png') }}" class="logo-option" data-logo="psg" data-type="escudo" title="PSG">
                                     <img src="{{ asset('escudos/int.png') }}" class="logo-option" data-logo="inter" data-type="escudo" title="Inter de Milán">
                                 </div>
+                                <button class="remove-btn" id="removeEscudoBtn">Quitar Escudo</button>
                             </div>
                             
                             <div class="control-group">
@@ -530,6 +599,10 @@
         const frontLogo = document.getElementById('frontLogo');
         const frontBadge = document.getElementById('frontBadge');
         const positionButtons = document.querySelectorAll('.position-btn');
+        const jerseyFrontImage = document.getElementById('jerseyFrontImage');
+        const jerseyBackImage = document.getElementById('jerseyBackImage');
+        const removeMarcaBtn = document.getElementById('removeMarcaBtn');
+        const removeEscudoBtn = document.getElementById('removeEscudoBtn');
 
         // Elementos traseros
         const backNameInput = document.getElementById('backNameInput');
@@ -544,22 +617,96 @@
         const tabs = document.querySelectorAll('.tab');
         const tabContents = document.querySelectorAll('.tab-content');
 
+        // Variable para controlar si la camiseta es blanca
+        let isWhiteJersey = true;
+
+        // Función para actualizar el estado de las pestañas
+        function updateTabState() {
+            const frontTab = document.querySelector('.tab[data-tab="front"]');
+            if (!isWhiteJersey) {
+                frontTab.classList.add('disabled');
+                // Si la pestaña frontal está activa, cambiar a la trasera
+                if (frontTab.classList.contains('active')) {
+                    frontTab.classList.remove('active');
+                    document.querySelector('.tab[data-tab="back"]').classList.add('active');
+                    
+                    document.getElementById('front-tab').classList.remove('active');
+                    document.getElementById('back-tab').classList.add('active');
+                }
+                
+                // Limpiar elementos frontales cuando no es camiseta blanca
+                frontLogo.style.display = 'none';
+                frontBadge.style.display = 'none';
+                document.querySelectorAll('.marca-options .logo-option').forEach(opt => opt.classList.remove('selected'));
+                document.querySelectorAll('.escudo-options .logo-option').forEach(opt => opt.classList.remove('selected'));
+            } else {
+                frontTab.classList.remove('disabled');
+            }
+        }
+
+        // Función para quitar la marca
+        removeMarcaBtn.addEventListener('click', function() {
+            frontLogo.style.display = 'none';
+            document.querySelectorAll('.marca-options .logo-option').forEach(opt => opt.classList.remove('selected'));
+        });
+
+        // Función para quitar el escudo
+        removeEscudoBtn.addEventListener('click', function() {
+            frontBadge.style.display = 'none';
+            document.querySelectorAll('.escudo-options .logo-option').forEach(opt => opt.classList.remove('selected'));
+        });
+
+        // =============================================
+        // NUEVO CÓDIGO PARA SELECCIÓN DE EQUIPO BASE
+        // =============================================
+        document.querySelectorAll('.team-options .logo-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Quitar selección de otros equipos
+                document.querySelectorAll('.team-options .logo-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                this.classList.add('selected');
+                
+                // Obtener el equipo seleccionado
+                const team = this.getAttribute('data-team');
+                
+                // Verificar si es blanca.png
+                isWhiteJersey = (team === 'blanca');
+                
+                // Actualizar el estado de las pestañas
+                updateTabState();
+                
+                // Actualizar ambas camisetas
+                if (team === 'blanca') {
+                    jerseyFrontImage.src = "{{ asset('escudos/blanca.png') }}";
+                    jerseyBackImage.src = "{{ asset('escudos/camiseta-blanca-atras.png') }}";
+                } else {
+                    // Asume que tienes imágenes con nombres consistentes
+                    jerseyFrontImage.src = `{{ asset('escudos/${team}-front.png') }}`;
+                    jerseyBackImage.src = `{{ asset('escudos/${team}-back.png') }}`;
+                }
+            });
+        });
+
+        // =============================================
+        // CÓDIGO ORIGINAL (con modificaciones para las pestañas)
+        // =============================================
         // Selección de marca
         document.querySelectorAll('.marca-options .logo-option').forEach(option => {
             option.addEventListener('click', function() {
-                // Quitar selección de otras marcas
+                if (!isWhiteJersey) return;
+                
                 document.querySelectorAll('.marca-options .logo-option').forEach(opt => {
                     opt.classList.remove('selected');
                 });
                 
                 this.classList.add('selected');
                 
-                // Mostrar la marca seleccionada
                 const logoPath = this.getAttribute('src');
                 frontLogo.src = logoPath;
                 frontLogo.style.display = 'block';
                 
-                // Actualizar posición
                 const activeBtn = document.querySelector('.position-btn.active[data-element="logo"]');
                 updateLogoPosition(frontLogo, activeBtn.getAttribute('data-position'));
             });
@@ -568,19 +715,18 @@
         // Selección de escudo
         document.querySelectorAll('.escudo-options .logo-option').forEach(option => {
             option.addEventListener('click', function() {
-                // Quitar selección de otros escudos
+                if (!isWhiteJersey) return;
+                
                 document.querySelectorAll('.escudo-options .logo-option').forEach(opt => {
                     opt.classList.remove('selected');
                 });
                 
                 this.classList.add('selected');
                 
-                // Mostrar el escudo seleccionado
                 const logoPath = this.getAttribute('src');
                 frontBadge.src = logoPath;
                 frontBadge.style.display = 'block';
                 
-                // Actualizar posición
                 const activeBtn = document.querySelector('.position-btn.active[data-element="badge"]');
                 updateLogoPosition(frontBadge, activeBtn.getAttribute('data-position'));
             });
@@ -589,6 +735,8 @@
         // Cambiar posición de los elementos
         positionButtons.forEach(btn => {
             btn.addEventListener('click', function() {
+                if (!isWhiteJersey) return;
+                
                 const elementType = this.getAttribute('data-element');
                 
                 document.querySelectorAll(`.position-btn[data-element="${elementType}"]`).forEach(b => {
@@ -664,6 +812,12 @@
         // Tabs functionality
         tabs.forEach(tab => {
             tab.addEventListener('click', function() {
+                // Si la pestaña está deshabilitada (no es blanca), no hacer nada
+                if (this.classList.contains('disabled')) {
+                    alert('Solo puedes personalizar la parte delantera en camisetas blancas');
+                    return;
+                }
+                
                 const tabId = this.getAttribute('data-tab');
                 
                 // Update tabs
@@ -679,6 +833,7 @@
         // Guardar diseño
         saveBtn.addEventListener('click', function() {
             const designData = {
+                team: document.querySelector('.team-options .logo-option.selected').getAttribute('data-team'),
                 front: {
                     logo: frontLogo.style.display === 'block' ? frontLogo.src : null,
                     logoPosition: document.querySelector('.position-btn.active[data-element="logo"]').getAttribute('data-position'),
@@ -704,6 +859,9 @@
                 this.style.backgroundColor = '#27ae60';
             }, 2000);
         });
+
+        // Inicializar el estado de las pestañas al cargar
+        updateTabState();
     </script>
 </body>
 </html>
