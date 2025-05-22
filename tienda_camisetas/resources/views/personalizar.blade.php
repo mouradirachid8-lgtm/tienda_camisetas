@@ -405,7 +405,7 @@
                     <div class="jersey-view">
                         <h2>Vista Trasera</h2>
                         <div class="jersey-container">
-                            <img src="camiseta-blanca-atras.png" alt="Camiseta trasera" class="jersey-image" id="jerseyBackImage">
+                            <img src="{{ asset('escudos/camiseta-blanca-atras.png') }}" alt="Camiseta trasera" class="jersey-image" id="jerseyBackImage">
                             <div class="jersey-number" id="jerseyBackNumber">7</div>
                             <div class="jersey-name" id="jerseyBackName">TRASERO</div>
                         </div>
