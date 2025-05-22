@@ -37,9 +37,7 @@ Route::get('/contact', function () {
 })->name('contacto');
 
 
-
-Route::get('/contact', [ContactoController::class, 'index'])->name('contacto');
-Route::post('/contact', [ContactoController::class, 'store'])->name('contacto.store');
+Route::post('/contacto/enviar', [ContactoController::class, 'enviar'])->name('contacto.enviar');
 
 Route::post('/contacto/enviar', [ContactoController::class, 'enviar'])->name('contacto.enviar');
 Route::middleware(['auth'])->group(function(){

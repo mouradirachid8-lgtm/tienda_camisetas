@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Contacto - Tienda de Camisetas de Fútbol</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
@@ -33,6 +34,11 @@
         .btn-send:hover {
             background: #003d7a;
             transform: translateY(-2px);
+        }
+        .btn-send:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
         }
         .info-card {
             transition: all 0.3s;
@@ -98,38 +104,45 @@
                         @csrf
                         
                         <div class="mb-4">
-                            <label for="from" class="block text-gray-700 font-medium mb-2">De:</label>
-                            <input type="email" id="from" name="from" required
+                            <label for="nombre" class="block text-gray-700 font-medium mb-2">Nombre Completo:</label>
+                            <input type="text" id="nombre" name="nombre" required
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
 
                         <div class="mb-4">
-                            <label for="to" class="block text-gray-700 font-medium mb-2">Para:</label>
-                            <input type="email" id="to" name="to" value="dsschampions@gmail.com" readonly
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="subject" class="block text-gray-700 font-medium mb-2">Asunto:</label>
-                            <input type="text" id="subject" name="subject" required
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Correo Electrónico:</label>
+                            <input type="email" id="email" name="email" required
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                         </div>
 
                         <div class="mb-4">
-                            <label for="message" class="block text-gray-700 font-medium mb-2">Mensaje:</label>
-                            <textarea id="message" name="message" rows="5" required
+                            <label for="telefono" class="block text-gray-700 font-medium mb-2">Teléfono (opcional):</label>
+                            <input type="tel" id="telefono" name="telefono"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="asunto" class="block text-gray-700 font-medium mb-2">Asunto:</label>
+                            <input type="text" id="asunto" name="asunto" required
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="mensaje" class="block text-gray-700 font-medium mb-2">Mensaje:</label>
+                            <textarea id="mensaje" name="mensaje" rows="5" required
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                         </div>
 
                         <div class="mb-6">
-                            <label for="attachment" class="block text-gray-700 font-medium mb-2">Adjuntar Archivo:</label>
-                            <input type="file" id="attachment" name="attachment"
+                            <label for="archivo" class="block text-gray-700 font-medium mb-2">Adjuntar Archivo (opcional):</label>
+                            <input type="file" id="archivo" name="archivo"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                             <p class="text-sm text-gray-500 mt-1">Formatos permitidos: PDF, JPG, PNG, DOCX, TXT (máx. 4MB)</p>
                         </div>
 
-                        <button type="submit" class="btn-send">
-                            Enviar
+                        <button type="submit" class="btn-send" id="btnEnviar">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Enviar Mensaje
                         </button>
                     </form>
                 </div>
@@ -178,9 +191,14 @@
             
             const form = e.target;
             const formData = new FormData(form);
+            const btnEnviar = document.getElementById('btnEnviar');
+            
+            // Deshabilitar botón mientras se envía
+            btnEnviar.disabled = true;
+            btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enviando...';
             
             // Validar archivo adjunto si existe
-            const fileInput = document.getElementById('attachment');
+            const fileInput = document.getElementById('archivo');
             if (fileInput.files.length > 0) {
                 const file = fileInput.files[0];
                 const validExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'docx', 'txt'];
@@ -188,11 +206,13 @@
                 
                 if (!validExtensions.includes(fileExtension)) {
                     Swal.fire('Archivo no permitido', 'Solo se permiten PDF, JPG, PNG, DOCX y TXT.', 'warning');
+                    resetButton();
                     return;
                 }
                 
                 if (file.size > 4 * 1024 * 1024) {
                     Swal.fire('Archivo muy grande', 'El archivo debe ser menor a 4 MB.', 'warning');
+                    resetButton();
                     return;
                 }
             }
@@ -209,16 +229,32 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    Swal.fire('¡Enviado!', 'Tu mensaje fue enviado con éxito.', 'success');
+                    Swal.fire({
+                        title: '¡Mensaje Enviado!',
+                        text: data.message || 'Tu mensaje fue enviado correctamente. Te responderemos pronto.',
+                        icon: 'success',
+                        confirmButtonColor: '#0056b3'
+                    });
                     form.reset();
                 } else {
-                    Swal.fire('Error', 'Hubo un problema al enviar el mensaje.', 'error');
+                    let errorMessage = 'Hubo un problema al enviar el mensaje.';
+                    if (data.errors) {
+                        errorMessage = Object.values(data.errors).flat().join('\n');
+                    }
+                    Swal.fire('Error', errorMessage, 'error');
                 }
+                resetButton();
             })
             .catch(error => {
-                Swal.fire('Error', 'Hubo un problema al enviar el mensaje.', 'error');
+                Swal.fire('Error', 'Hubo un problema al enviar el mensaje. Inténtalo de nuevo.', 'error');
                 console.error('Error:', error);
+                resetButton();
             });
+            
+            function resetButton() {
+                btnEnviar.disabled = false;
+                btnEnviar.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Enviar Mensaje';
+            }
         });
     </script>
 </body>
