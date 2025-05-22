@@ -3,55 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Contacto - Tienda de Camisetas de Fútbol</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        .contact-container {
-            background: #fff;
-            padding: 3rem;
-            margin: 2rem auto;
-            max-width: 1200px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;  /* Azul claro que querías */
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #27ae60;
         }
-        .map iframe {
-            width: 100%;
-            height: 400px;
-            border: none;
+        
+        .contact-hero {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-        .btn-send {
-            background: #0056b3;
-            color: #fff;
-            border: none;
-            padding: 0.75rem 2rem;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .btn-send:hover {
-            background: #003d7a;
-            transform: translateY(-2px);
-        }
-        .btn-send:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
+        
         .info-card {
             transition: all 0.3s;
+            border-top: 4px solid var(--secondary-color);
         }
+        
         .info-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
+        
+        .section-title {
+            border-bottom: 2px solid var(--secondary-color);
+        }
     </style>
 </head>
-<body class="bg-gray-100">
-    <!-- Header (consistente con tu catálogo) -->
-    <header class="bg-blue-900 shadow-lg shadow-blue-500/50 px-4 py-7">
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-[#2c3e50] shadow-lg px-4 py-7">
         <div class="max-w-7xl mx-auto flex justify-between items-center space-x-6 relative">
             <div class="absolute left-0 top-1/2 transform -translate-y-1/2">
                 <img src="{{ asset('images/logo.jpg') }}" alt="Icono" class="w-12 h-12 rounded-full">
@@ -86,91 +72,83 @@
         </div>
     </header>
 
-    <!-- Contenido principal -->
-    <main class="py-8">
-        <div class="contact-container">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Mapa -->
-                <div class="map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.0791642771266!2d-0.5112375!3d38.3868132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6236ba2a07b50f%3A0x161c6e192605005b!2sEdificio%2016%20-%20Escuela%20Politecnica%20Superior%201%2C%2003690%20San%20Vicente%20del%20Raspeig%2C%20Alicante!5e0!3m2!1ses!2ses!4v1621321137058!5m2!1ses!2ses" allowfullscreen></iframe>
+    <!-- Hero Section -->
+    <section class="contact-hero py-16">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h1 class="text-4xl font-bold text-[#2c3e50] mb-4">Contáctanos</h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto">Estamos aquí para ayudarte. Visítanos o contáctanos a través de los siguientes medios.</p>
+        </div>
+    </section>
+
+    <!-- Mapa y Horario -->
+    <section class="py-12 max-w-7xl mx-auto px-4">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Mapa -->
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3105.0791642771266!2d-0.5112375!3d38.3868132!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6236ba2a07b50f%3A0x161c6e192605005b!2sEdificio%2016%20-%20Escuela%20Politecnica%20Superior%201%2C%2003690%20San%20Vicente%20del%20Raspeig%2C%20Alicante!5e0!3m2!1ses!2ses!4v1621321137058!5m2!1ses!2ses" 
+                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            
+            <!-- Horario -->
+            <div class="bg-white rounded-lg shadow-lg p-8">
+                <h2 class="text-2xl font-bold text-[#2c3e50] mb-6 section-title pb-2">Horario de Atención</h2>
+                
+                <div class="space-y-4">
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="font-medium">Lunes - Viernes</span>
+                        <span>9:00 - 22:00</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="font-medium">Sábados</span>
+                        <span>09:00 - 16:00</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2">
+                        <span class="font-medium">Domingos</span>
+                        <span class="text-red-500">Cerrado</span>
+                    </div>
                 </div>
-
-                <!-- Formulario -->
-                <div class="contact-form">
-                    <h1 class="text-3xl font-bold text-blue-800 mb-2">Contáctanos</h1>
-                    <h2 class="text-lg text-gray-600 mb-6">Estamos aquí para ayudarte.</h2>
-
-                    <form id="contactForm" action="{{ route('contacto.enviar') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        
-                        <div class="mb-4">
-                            <label for="nombre" class="block text-gray-700 font-medium mb-2">Nombre Completo:</label>
-                            <input type="text" id="nombre" name="nombre" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="email" class="block text-gray-700 font-medium mb-2">Correo Electrónico:</label>
-                            <input type="email" id="email" name="email" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="telefono" class="block text-gray-700 font-medium mb-2">Teléfono (opcional):</label>
-                            <input type="tel" id="telefono" name="telefono"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="asunto" class="block text-gray-700 font-medium mb-2">Asunto:</label>
-                            <input type="text" id="asunto" name="asunto" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-
-                        <div class="mb-4">
-                            <label for="mensaje" class="block text-gray-700 font-medium mb-2">Mensaje:</label>
-                            <textarea id="mensaje" name="mensaje" rows="5" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                        </div>
-
-                        <div class="mb-6">
-                            <label for="archivo" class="block text-gray-700 font-medium mb-2">Adjuntar Archivo (opcional):</label>
-                            <input type="file" id="archivo" name="archivo"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <p class="text-sm text-gray-500 mt-1">Formatos permitidos: PDF, JPG, PNG, DOCX, TXT (máx. 4MB)</p>
-                        </div>
-
-                        <button type="submit" class="btn-send" id="btnEnviar">
-                            <i class="fas fa-paper-plane mr-2"></i>
-                            Enviar Mensaje
-                        </button>
-                    </form>
+                
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold text-[#3498db] mb-4">¿Necesitas ayuda fuera de horario?</h3>
+                    <p class="text-gray-600">Puedes enviarnos un email a <span class="text-[#3498db] hover:underline">dsschampions@gmail.com</span>  y te responderemos lo antes posible.</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Info contacto -->
-        <div class="max-w-7xl mx-auto px-4 py-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Info contacto -->
+    <section class="py-12 bg-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-[#2c3e50] mb-12">Nuestros Canales de Contacto</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <!-- Email -->
-                <div class="info-card bg-white p-6 rounded-lg shadow-md text-center h-full">
-                    <i class="fas fa-envelope fa-3x text-blue-600 mb-4"></i>
+                <div class="info-card bg-white p-8 rounded-lg shadow-md text-center">
+                    <div class="bg-[#3498db] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-2xl"></i>
+                    </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Email</h3>
-                    <p class="text-gray-600">dsschampions@gmail.com</p>
+                    <p class="text-gray-600 mb-4">Escríbenos directamente a nuestro correo</p>
+                    <a href="mailto:dsschampions@gmail.com" class="text-[#3498db] font-medium hover:underline">dsschampions@gmail.com</a>
                 </div>
 
                 <!-- Teléfono -->
-                <div class="info-card bg-white p-6 rounded-lg shadow-md text-center h-full">
-                    <i class="fas fa-phone fa-3x text-blue-600 mb-4"></i>
+                <div class="info-card bg-white p-8 rounded-lg shadow-md text-center">
+                    <div class="bg-[#3498db] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone-alt text-2xl"></i>
+                    </div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">Teléfono</h3>
-                    <p class="text-gray-600">Tel. 623 457 999</p>
-                    <p class="text-gray-600">Fax 613 789 909</p>
+                    <p class="text-gray-600 mb-4">Llama a nuestro equipo de atención</p>
+                    <p class="text-[#3498db] font-medium">623 457 999</p>
+                    <p class="text-gray-500 text-sm mt-1">Fax: 613 789 909</p>
                 </div>
 
                 <!-- Dirección -->
-                <div class="info-card bg-white p-6 rounded-lg shadow-md text-center h-full">
-                    <i class="fas fa-map-marker-alt fa-3x text-blue-600 mb-4"></i>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Dirección</h3>
+                <div class="info-card bg-white p-8 rounded-lg shadow-md text-center">
+                    <div class="bg-[#3498db] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Visítanos</h3>
                     <p class="text-gray-600">
                         Escuela Politécnica Superior<br>
                         Universidad de Alicante<br>
@@ -179,82 +157,97 @@
                 </div>
             </div>
         </div>
-    </main>
+    </section>
 
-    <!-- Incluir el footer desde otro fichero -->
-    @include('layouts.partials.footer') 
+    <!-- FAQ Section -->
+    <section class="py-12 max-w-7xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center text-[#2c3e50] mb-12">Preguntas Frecuentes</h2>
+        
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden max-w-4xl mx-auto">
+            <div class="divide-y divide-gray-200">
+                <!-- FAQ Item 1 -->
+                <div class="p-6">
+                    <button class="flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-semibold text-[#3498db]">¿Dónde se encuentran ubicados?</h3>
+                        <i class="fas fa-chevron-down text-[#3498db]"></i>
+                    </button>
+                    <p class="mt-2 text-gray-600">Nuestra tienda física está ubicada en la Escuela Politécnica Superior de la Universidad de Alicante, en San Vicente del Raspeig.</p>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="p-6">
+                    <button class="flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-semibold text-[#3498db]">¿Hacen envíos a domicilio?</h3>
+                        <i class="fas fa-chevron-down text-[#3498db]"></i>
+                    </button>
+                    <p class="mt-2 text-gray-600">Sí, realizamos envíos a toda España peninsular en un plazo de 24-48 horas. Para Baleares, Canarias y envíos internacionales, consulta disponibilidad.</p>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="p-6">
+                    <button class="flex justify-between items-center w-full text-left">
+                        <h3 class="text-lg font-semibold text-[#3498db]">¿Puedo personalizar mi camiseta?</h3>
+                        <i class="fas fa-chevron-down text-[#3498db]"></i>
+                    </button>
+                    <p class="mt-2 text-gray-600">¡Claro! Visita nuestro <a href="/personalizar" class="text-[#3498db] hover:underline">diseñador de camisetas</a> para crear tu diseño personalizado con nombre, número y detalles únicos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-[#2c3e50] text-white py-8">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <img src="{{ asset('images/logo.jpg') }}" alt="Logo" class="h-12 w-12 rounded-full">
+                    <p class="mt-2 text-gray-300">La mejor tienda de camisetas de fútbol</p>
+                </div>
+
+                <!-- Enlaces rápidos -->
+                <div class="mt-6 md:mt-0 text-center md:text-left">
+                    <h3 class="text-lg font-bold text-orange-400 mb-3">Enlaces rápidos</h3>
+                    <div class="flex flex-col md:flex-row md:space-x-6 text-base font-semibold text-gray-300">
+                        <a href="/" class="hover:text-white transition mb-2 md:mb-0">Inicio</a>
+                        <a href="/catalogo" class="hover:text-white transition mb-2 md:mb-0">Tienda</a>
+                        <a href="/personalizar" class="hover:text-white transition">Personalización</a>
+                    </div>
+                </div>
+
+                
+                <div class="flex space-x-6">
+                    <a href="#" class="text-gray-300 hover:text-white">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-gray-300 hover:text-white">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-6 pt-6 text-center text-gray-400">
+                <p>&copy; 2025 DSS Champions. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Manejo del formulario con AJAX
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const form = e.target;
-            const formData = new FormData(form);
-            const btnEnviar = document.getElementById('btnEnviar');
-            
-            // Deshabilitar botón mientras se envía
-            btnEnviar.disabled = true;
-            btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Enviando...';
-            
-            // Validar archivo adjunto si existe
-            const fileInput = document.getElementById('archivo');
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const validExtensions = ['pdf', 'jpg', 'jpeg', 'png', 'docx', 'txt'];
-                const fileExtension = file.name.split('.').pop().toLowerCase();
+        // Simple FAQ toggle functionality
+        document.querySelectorAll('.faq button').forEach(button => {
+            button.addEventListener('click', () => {
+                const answer = button.nextElementSibling;
+                const icon = button.querySelector('i');
                 
-                if (!validExtensions.includes(fileExtension)) {
-                    Swal.fire('Archivo no permitido', 'Solo se permiten PDF, JPG, PNG, DOCX y TXT.', 'warning');
-                    resetButton();
-                    return;
-                }
-                
-                if (file.size > 4 * 1024 * 1024) {
-                    Swal.fire('Archivo muy grande', 'El archivo debe ser menor a 4 MB.', 'warning');
-                    resetButton();
-                    return;
-                }
-            }
-            
-            // Enviar formulario
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    Swal.fire({
-                        title: '¡Mensaje Enviado!',
-                        text: data.message || 'Tu mensaje fue enviado correctamente. Te responderemos pronto.',
-                        icon: 'success',
-                        confirmButtonColor: '#0056b3'
-                    });
-                    form.reset();
-                } else {
-                    let errorMessage = 'Hubo un problema al enviar el mensaje.';
-                    if (data.errors) {
-                        errorMessage = Object.values(data.errors).flat().join('\n');
-                    }
-                    Swal.fire('Error', errorMessage, 'error');
-                }
-                resetButton();
-            })
-            .catch(error => {
-                Swal.fire('Error', 'Hubo un problema al enviar el mensaje. Inténtalo de nuevo.', 'error');
-                console.error('Error:', error);
-                resetButton();
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('fa-chevron-down');
+                icon.classList.toggle('fa-chevron-up');
             });
-            
-            function resetButton() {
-                btnEnviar.disabled = false;
-                btnEnviar.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Enviar Mensaje';
-            }
         });
     </script>
 </body>
