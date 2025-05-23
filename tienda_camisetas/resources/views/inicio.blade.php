@@ -20,7 +20,7 @@
 
 <body class="flex flex-col h-screen bg-white">
     <!-- Header -->
-    @include('layouts.partials.header')
+    
     
     <!-- Banner "Compra Ahora" - Ocupa el espacio restante -->
     <div class="flex-grow w-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center">
@@ -33,7 +33,6 @@
         </a>
     </div>
 
-    @include('layouts.partials.footer')
 </body>
 
 </html>
