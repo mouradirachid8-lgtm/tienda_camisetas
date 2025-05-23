@@ -17,36 +17,7 @@
 </head>
 <body class="flex flex-col h-screen bg-white">
     <!-- Header -->
-    <header class="bg-blue-900 shadow-lg shadow-blue-500/50 px-4 py-7 w-full">
-        <div class="flex justify-between items-center max-w-7xl mx-auto">
-            <!-- Logo a la izquierda -->
-            <div class="flex-shrink-0">
-                <img src="{{ asset('images/logo.jpg') }}" alt="Icono" class="w-12 h-12 rounded-full">
-            </div>
-            
-            <!-- Sección de inicio de sesión y carrito a la derecha -->
-            <div class="flex gap-6 items-center">
-                <!-- Icono de carrito -->
-                <a href="carrito" class="bg-orange-500 px-4 py-2 rounded p-4 text-white flex items-center gap-2 transform transition-transform duration-200 hover:scale-110">
-                    <i class="fas fa-shopping-cart text-white"></i> 
-                    <span>Tu carro</span>
-                </a>
-                @auth
-                    <a href="/" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
-                        <i class="fa fa-sign-out-alt"></i>
-                        <span>Cerrar Sesión</span>
-                    </a>
-                @endauth
-                @guest
-                    <a href="/login" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
-                        <i class="fa fa-sign-in-alt"></i>
-                        <span>Iniciar Sesión</span>
-                    </a>
-                @endguest
-            </div>
-            </div>
-        </div>
-    </header>
+    @include('layouts.partials.header')
     
     <!-- Banner "Compra Ahora" - Ocupa el espacio restante -->
     <div class="flex-grow w-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center">
@@ -58,5 +29,7 @@
             <p class="text-white mt-2 text-lg">Descubre nuestras ofertas</p>
         </a>
     </div>
+
+    @include('layouts.partials.footer')
 </body>
 </html>
