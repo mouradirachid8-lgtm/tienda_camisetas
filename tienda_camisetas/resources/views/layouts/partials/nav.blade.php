@@ -1,16 +1,9 @@
-<ul class="navmenu">
-    <li class="nav-item"><a class="nav-link" href="{{ url('/') }}">Inicio</a></li>
-    
-    <li class="nav-item"><a class="nav-link" href="{{ route('catalogo') }}">Catálogo</a></li>
-    
-    <li class="nav-item"><a class="nav-link" href="{{ route('about') }}">About</a></li>
-    
-    <li class="nav-item"><a class="nav-link" href="{{ route('contacto') }}">Contacto</a></li>
-    
-    <!-- Carrito -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('carro') }}">
-            <i class="fas fa-shopping-cart"></i>
-        </a>
-    </li>
-</ul>
+<nav class="flex items-center text-white space-x-8">
+    <a href="/" class="hover:text-orange-500 {{ request()->is('/') ? 'text-orange-500 font-bold' : '' }}">Home</a>
+    <span class="text-white">|</span>
+    <a href="/personalizar" class="hover:text-orange-500 {{ request()->is('personalizar') ? 'text-orange-500 font-bold' : '' }}">Personalizar</a>
+    <span class="text-white">|</span>
+    <a href="/catalogo" class="hover:text-orange-500 {{ request()->is('catalogo') ? 'text-orange-500 font-bold' : '' }}">Catálogo</a>
+    <span class="text-white">|</span>
+    <a href="/contact" class="hover:text-orange-500 {{ request()->is('contact') ? 'text-orange-500 font-bold' : '' }}">Contact</a>
+</nav>

@@ -8,10 +8,14 @@ use Illuminate\Support\Facades\Auth;
 
 class CustomAuthenticate
 {
-    public function handle(Request $request, Closure $next, ...$guards)
+    public function handle(Request $request, Closure $next, $role = 'admin')
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Por favor inicia sesión');
+            return redirect()->route('login');
+        }
+
+        if ($role === 'admin' && !Auth::user()->admin) {
+            return redirect('/')->with('error', 'Se requieren permisos de administrador');
         }
 
         return $next($request);
