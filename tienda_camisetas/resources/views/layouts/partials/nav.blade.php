@@ -5,5 +5,5 @@
     <span class="text-white">|</span>
     <a href="/catalogo" class="hover:text-orange-500 {{ request()->is('catalogo') ? 'text-orange-500 font-bold' : '' }}">Catálogo</a>
     <span class="text-white">|</span>
-    <a href="/contact" class="hover:text-orange-500 {{ request()->is('contact') ? 'text-orange-500 font-bold' : '' }}">Contact</a>
+    <a href="/contacto" class="hover:text-orange-500 {{ request()->is('contacto') ? 'text-orange-500 font-bold' : '' }}">Contact</a>
 </nav>
