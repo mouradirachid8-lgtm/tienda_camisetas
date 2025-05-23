@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,10 +16,9 @@
         }
     </style>
 </head>
-
 <body class="flex flex-col h-screen bg-white">
     <!-- Header -->
-    
+    @include('layouts.partials.header')
     
     <!-- Banner "Compra Ahora" - Ocupa el espacio restante -->
     <div class="flex-grow w-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center">
@@ -32,7 +30,5 @@
             <p class="text-white mt-2 text-lg">Descubre nuestras ofertas</p>
         </a>
     </div>
-
 </body>
-
 </html>
