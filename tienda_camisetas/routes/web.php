@@ -26,6 +26,16 @@ Route::get('/catalogo/filtrar', [CatalogoController::class, 'filtrarProductos'])
 // Productos
 Route::get('/producto/{id}', [ProductoController::class, 'show'])->name('producto.show');
 
+//Personalizar
+Route::get('/personalizar', function () {
+    return view('personalizar');
+})->name('personalizar');
+
+//Contacto
+Route::get('/contacto', function () {
+    return view('contacto');
+})->name('contacto');
+
 /*
 |--------------------------------------------------------------------------
 | Rutas de Autenticación
