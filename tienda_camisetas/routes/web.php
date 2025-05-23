@@ -21,9 +21,9 @@ Route::get('/register', function () {
 })->name('register');
 
 
-Route::get('/carro', function () {
-    return view('carro');
-})->name('carro');
+Route::get('/carrito', function () {
+    return view('carrito');
+})->name('carrito');
 
 Route::get('/perfil', function () {
     return view('perfil');
