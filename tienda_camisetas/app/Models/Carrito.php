@@ -49,7 +49,7 @@ class Carrito extends Model
     public function calcularTotal(): float
     {
         return $this->productos()->get()->sum(function ($producto) {
-            return ($producto->precio - $producto->aplicar_descuento()) * $producto->pivot->cantidad;
+            return $producto->aplicar_descuento() * $producto->pivot->cantidad;
         });
     }
 

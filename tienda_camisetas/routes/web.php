@@ -6,7 +6,7 @@ use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\PaginacionController;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CarroController;
+use App\Http\Controllers\CarroController; // Asegúrate de importar tu controlador
 
 /*
 |--------------------------------------------------------------------------
@@ -59,11 +59,22 @@ Route::middleware(['auth'])->group(function () {
     })->name('perfil');
     
     // Carrito
-    Route::get('/carrito', function () {
-        return view('carrito');
-    })->name('carrito');
+    Route::get('/carrito', [CarroController::class, 'mostrarCarrito'])->name('carrito.mostrar');
+    Route::post('/carrito/agregar/{producto_id}', [CarroController::class, 'agregarAlCarrito'])->name('carrito.agregarAlCarrito');
+    Route::delete('/carrito/eliminar/{producto_id}', [CarroController::class, 'eliminarDelCarrito'])->name('carrito.eliminar');
+    Route::patch('/carrito/actualizar/{producto_id}', [CarroController::class, 'actualizarCantidad'])->name('carrito.actualizarCantidad');
+    Route::delete('/carrito/vaciar', [CarroController::class, 'vaciarCarrito'])->name('carrito.vaciar');
     
-    Route::post('/carrito/agregar', [CarroController::class, 'agregar'])->name('carrito.agregar');
+    // Checkout - Información de Envío
+    Route::get('/envio', [CarroController::class, 'mostrarInfoEnvio'])->name('checkout.envio');
+    Route::post('/envio', [CarroController::class, 'procesarInfoEnvio'])->name('checkout.procesarEnvio');
+
+    // Checkout - Opciones de Pago (ACTUALIZADO - usando el controlador)
+    Route::get('/checkout/pago', [CarroController::class, 'mostrarOpcionesPago'])->name('checkout.opcionesPago');
+    Route::post('/checkout/pago', [CarroController::class, 'procesarPago'])->name('checkout.procesarPago');
+    
+    // Confirmación del pedido
+    Route::get('/pedido/confirmacion', [CarroController::class, 'mostrarConfirmacionPedido'])->name('pedido.confirmacion');
 });
 
 /*

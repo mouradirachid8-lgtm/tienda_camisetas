@@ -50,16 +50,16 @@
                     <span>Tu carro</span>
                 </a>
                 @auth
-                    <a href="/" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
-                        <i class="fa fa-sign-out-alt"></i>
-                        <span>Cerrar Sesión</span>
-                    </a>
+                <a href="/" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
+                    <i class="fa fa-sign-out-alt"></i>
+                    <span>Cerrar Sesión</span>
+                </a>
                 @endauth
                 @guest
-                    <a href="/login" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
-                        <i class="fa fa-sign-in-alt"></i>
-                        <span>Iniciar Sesión</span>
-                    </a>
+                <a href="/login" class="flex items-center space-x-2 text-red-500 hover:text-red-700">
+                    <i class="fa fa-sign-in-alt"></i>
+                    <span>Iniciar Sesión</span>
+                </a>
                 @endguest
             </div>
         </div>
@@ -219,7 +219,8 @@
                         </div>
                         <!-- Botón y acciones -->
                         <div class="flex space-x-2">
-                            <form action="{{ route('carrito.agregar', $producto->id) }}" method="POST" class="w-full">
+                            <form action="{{ route('carrito.agregarAlCarrito', ['producto_id' => $producto->id]) }}"
+                                method="POST">
                                 @csrf
                                 <input type="hidden" name="cantidad" value="1">
                                 <button type="submit"
@@ -238,6 +239,7 @@
             {{ $productos->links() }}
         </div>
     @endif
+    @include('layouts.partials.footer')
 </body>
 
 </html>

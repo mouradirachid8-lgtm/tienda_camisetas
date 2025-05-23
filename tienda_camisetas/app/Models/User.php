@@ -36,7 +36,7 @@ class User extends Authenticatable
     }
 
     // Métodos adicionales
-    public function getDNI(): string { return $this->DNI; }
+    public function getDNI(): string { return $this->dni; }
     public function getNombre(): string { return $this->nombre; }
     public function getApellidos(): string { return $this->apellidos; }
     public function getEMAIL(): string { return $this->email; }
@@ -46,7 +46,7 @@ class User extends Authenticatable
     public function getPuntosFidelidad(): int { return $this->puntos_fidelidad; }
     public function getPassword(): string { return $this->password; }
 
-    public function setDNI(string $dni): void { $this->DNI = $dni; }
+    public function setDNI(string $dni): void { $this->dni = $dni; }
     public function setNombre(string $nombre): void { $this->nombre = $nombre; }
     public function setApellidos(string $apellidos): void { $this->apellidos = $apellidos; }
     public function setEMAIL(string $email): void { $this->email = $email; }
