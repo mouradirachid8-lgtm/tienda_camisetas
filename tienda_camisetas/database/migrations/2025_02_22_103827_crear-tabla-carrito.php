@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('carrito', function (Blueprint $table) {
             $table->id();
             $table->string('user_dni'); // Changed to string to match the 'dni' column in 'usuarios'
-            $table->float('precio_total')->default(0);
             $table->timestamps();
 
             // Foreign key constraint
-            $table->foreign('user_dni')->references('dni')->on('usuario');
+            $table->foreign('user_dni')->references('dni')->on('users');
         });
     }
 

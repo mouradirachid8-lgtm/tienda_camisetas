@@ -14,7 +14,7 @@ class UsuarioSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('usuario')->insert([
+        DB::table('users')->insert([
             [
                 'DNI' => '80464283C',
                 'nombre' => 'Admin',
@@ -25,7 +25,6 @@ class UsuarioSeeder extends Seeder
                 'localidad' => 'Madeira',
                 'direccion' => 'Calle Mayor, 7',
                 'modo_pago' => 'Tarjeta de crédito',
-                'fecha_registrado' => Carbon::now()->subDays(30)->toDateString(),
                 'puntos_fidelidad' => 100,
                 'password' => Hash::make('admin'), // 🔹 Cifra la contraseña aquí
                 'admin' => true,
@@ -42,7 +41,6 @@ class UsuarioSeeder extends Seeder
                 'localidad' => 'CDMX',
                 'direccion' => 'Reforma 200',
                 'modo_pago' => 'Efectivo',
-                'fecha_registrado' => Carbon::now()->subDays(5)->toDateString(),
                 'puntos_fidelidad' => 50,
                 'password' => Hash::make('user1'), // 🔹 Cifra la contraseña aquí
                 'admin' => false,

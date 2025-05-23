@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Equipo;
 use App\Models\Producto;
+use App\Models\Carrito;
 
 class AuthController extends Controller
 {
@@ -20,34 +21,63 @@ class AuthController extends Controller
     // Procesa el login
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required|string'
         ]);
 
-        // Buscar usuario en la base de datos
-        $usuario = User::where('email', $request->email)->first();
-
-        // Verificar si el usuario existe
-        if (!$usuario) {
-            return redirect()->route('login')->with('error', 'Correo o contraseña incorrectos.');
+        if (Auth::attempt($credentials, $request->remember)) {
+            $request->session()->regenerate();
+            
+            // Verificar si hay un producto pendiente
+            if (session()->has('producto_pendiente')) {
+                $producto_id = session()->get('producto_pendiente');
+                $cantidad = session()->get('cantidad_pendiente', 1);
+                
+                // Limpiar la sesión
+                session()->forget(['producto_pendiente', 'cantidad_pendiente', 'url_anterior']);
+                
+                // Agregar el producto al carrito automáticamente
+                $user = Auth::user();
+                $carrito = Carrito::firstOrCreate(['user_dni' => $user->dni]); // Cambiado a minúsculas
+                
+                try {
+                    $producto = Producto::findOrFail($producto_id);
+                    
+                    if ($producto->es_disponible() && $producto->stock >= $cantidad) {
+                        // Verificar si el producto ya existe en el carrito
+                        $itemExistente = $carrito->productos()->where('producto_id', $producto_id)->first();
+                        
+                        if ($itemExistente) {
+                            $nuevaCantidad = $itemExistente->pivot->cantidad + $cantidad;
+                            if ($nuevaCantidad <= $producto->stock) {
+                                $carrito->productos()->updateExistingPivot($producto_id, [
+                                    'cantidad' => $nuevaCantidad
+                                ]);
+                            }
+                        } else {
+                            $carrito->productos()->attach($producto_id, ['cantidad' => $cantidad]);
+                        }
+                        
+                        // Redirigir al carrito con mensaje de éxito
+                        return redirect()->route('carrito.mostrar')
+                            ->with('success', 'Has iniciado sesión y hemos añadido el producto a tu carrito');
+                    }
+                } catch (\Exception $e) {
+                    // Si hay algún problema, seguir con el flujo normal
+                }
+            }
+            
+            // Redirección normal si no hay producto pendiente
+            return $request->user()->admin
+                ? redirect()->route('administrador')
+                : redirect()->route('catalogo');
         }
 
-        // Verificar la contraseña
-        if (!Hash::check($request->password, $usuario->password)) {
-            return redirect()->route('login')->with('error', 'Correo o contraseña incorrectos.');
-        }
-
-        // Autenticar usuario
-        Auth::login($usuario);
-        session(['usuarioGlobal' => $usuario]);
-
-        // Redirigir según si es admin o no
-        return $usuario->admin
-            ? redirect()->route('administrador')
-            : redirect()->route('catalogo');
+        return back()->withErrors([
+            'email' => 'Credenciales incorrectas',
+        ]);
     }
-
 
     // Cerrar sesión
     public function logout()
@@ -56,41 +86,91 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Has cerrado sesión.');
     }
 
-
-    // Registrar un nuevo usuario
+    // Mostrar formulario de registro
     public function showRegister()
     {
         return view('auth.register');
     }
 
+    // Registrar un nuevo usuario
     public function register(Request $request)
     {
-        $request->validate([
+        // Debug temporal - descomenta para ver qué datos llegan
+        // \Log::info('Datos recibidos:', $request->all());
+        
+        $validated = $request->validate([
             'nombre' => 'required|string|max:255',
-            'apellido1' => 'required|string|max:255',
-            'apellido2' => 'nullable|string|max:255',
-            'telefono' => 'nullable|string|max:20',
-            'email' => 'required|string|email|max:255|unique:users',
+            'apellidos' => 'required|string|max:255',
+            'dni' => 'required|string|regex:/^[0-9]{8}[A-Z]$/i|unique:users,dni', // Cambiado a minúsculas
+            'telefono' => 'required|string|regex:/^[0-9]{9}$/',
+            'codigo_pais' => 'required|string',
+            'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
+            'pais' => 'required|string|max:255',
+            'localidad' => 'required|string|max:255',
+            'direccion' => 'required|string|max:255'
+        ], [
+            'dni.required' => 'El DNI es obligatorio.',
+            'dni.regex' => 'El DNI debe tener 8 números y una letra.',
+            'dni.unique' => 'Este DNI ya está registrado.',
+            'telefono.regex' => 'El teléfono debe tener 9 dígitos.',
+            'email.unique' => 'Este correo electrónico ya está registrado.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.'
         ]);
 
-        // Create the user
+        // Combinar código de país con teléfono
+        $telefonoCompleto = $validated['codigo_pais'] . ' ' . $validated['telefono'];
+        
+        // Crear el usuario
         $user = User::create([
-            'nombre' => $request->nombre,
-            'apellido1' => $request->apellido1,
-            'apellido2' => $request->apellido2,
-            'telefono' => $request->codigo_pais . $request->telefono,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'dni' => strtoupper($validated['dni']), // Asegurar que la letra esté en mayúsculas
+            'nombre' => $validated['nombre'],
+            'apellidos' => $validated['apellidos'],
+            'telefono' => $telefonoCompleto,
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+            'pais' => $validated['pais'],
+            'localidad' => $validated['localidad'],
+            'direccion' => $validated['direccion'],
+            'modo_pago' => 'efectivo', // Valor por defecto
+            'puntos_fidelidad' => 0,    // Valor inicial
+            'admin' => false            // Por defecto no es admin
         ]);
 
         // Log the user in
         Auth::login($user);
+        
+        // Crear carrito para el nuevo usuario
+        Carrito::firstOrCreate(['user_dni' => $user->dni]);
+        
+        // Verificar si hay un producto pendiente (similar al login)
+        if (session()->has('producto_pendiente')) {
+            $producto_id = session()->get('producto_pendiente');
+            $cantidad = session()->get('cantidad_pendiente', 1);
+            
+            // Limpiar la sesión
+            session()->forget(['producto_pendiente', 'cantidad_pendiente', 'url_anterior']);
+            
+            try {
+                $producto = Producto::findOrFail($producto_id);
+                
+                if ($producto->es_disponible() && $producto->stock >= $cantidad) {
+                    $user->carrito->productos()->attach($producto_id, ['cantidad' => $cantidad]);
+                    
+                    // Redirigir al carrito con mensaje de éxito
+                    return redirect()->route('carrito.mostrar')
+                        ->with('success', 'Cuenta creada y producto añadido a tu carrito');
+                }
+            } catch (\Exception $e) {
+                // Si hay algún problema, seguir con el flujo normal
+            }
+        }
 
-        // Redirect to dashboard or home page
-        return redirect()->route('dashboard');
+        return redirect()->route('catalogo')->with('success', '¡Registro exitoso! Bienvenido.');
     }
 
+    // Método para mostrar el formulario con países
     public function rellena_paises()
     {
         $paises = [

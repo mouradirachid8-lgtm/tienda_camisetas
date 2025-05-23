@@ -34,7 +34,7 @@ class ProductoSeeder extends Seeder
         ];
 
         foreach ($teams as ['carpeta' => $c, 'color' => $color, 'name' => $team, 'id' => $id]) {
-            for ($i = 1; $i <= 10; $i++) { 
+            for ($i = 1; $i <= 10; $i++) {
                 $year1 = 2025 - $i;
                 $year2 = $year1 + 1;
                 $temporada = "$year1-$year2";
@@ -52,6 +52,8 @@ class ProductoSeeder extends Seeder
                     'proveedor_id' => rand(1, 8),
                     'created_at' => now(),
                     'updated_at' => now(),
+                    // Método para generar descuentos más realistas
+                    'descuento' => (rand(1, 100) <= 70) ? rand(0, 15) : rand(20, 50), // 70% probabilidad de 0-15%, 30% probabilidad de 20-50%
                 ]);
             }
         }

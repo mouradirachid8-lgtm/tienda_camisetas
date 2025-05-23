@@ -8,21 +8,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Carrito extends Model
 {
     protected $table = 'carrito';
-    
+
     protected $fillable = ['user_dni'];
-    
+
     // Relación con usuario
     public function usuario(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_dni', 'dni');
     }
-    
+
     // Relación muchos a muchos con productos
     public function productos(): BelongsToMany
     {
         return $this->belongsToMany(Producto::class, 'producto_carrito', 'carrito_id', 'producto_id')
-                    ->withPivot('cantidad')
-                    ->withTimestamps();
+            ->withPivot('cantidad')
+            ->withTimestamps();
     }
 
     // Agregar un producto al carrito
@@ -34,7 +34,7 @@ class Carrito extends Model
     }
 
     // Eliminar un producto del carrito
-    public function deletProducto(Producto $producto): void
+    public function deleteProducto(Producto $producto): void
     {
         $this->productos()->detach($producto->id);
     }
@@ -49,7 +49,7 @@ class Carrito extends Model
     public function calcularTotal(): float
     {
         return $this->productos()->get()->sum(function ($producto) {
-            return ($producto->precio - $producto->aplicar_descuento()) * $producto->pivot->cantidad;
+            return $producto->aplicar_descuento() * $producto->pivot->cantidad;
         });
     }
 

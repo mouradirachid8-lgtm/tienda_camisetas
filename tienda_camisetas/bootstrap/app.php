@@ -11,7 +11,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // Registrar middleware alias
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\CustomAuthenticate::class,
+        ]);
+        
+        // Opcional: Agregar a un grupo de middlewares
+        // $middleware->appendToGroup('web', \App\Http\Middleware\CustomAuthenticate::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

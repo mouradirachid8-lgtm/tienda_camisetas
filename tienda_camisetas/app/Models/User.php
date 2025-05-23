@@ -9,14 +9,14 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    protected $table = 'usuario';
-    protected $primaryKey = 'DNI';
+    protected $table = 'users';
+    protected $primaryKey = 'dni';
     public $incrementing = false;
     protected $keyType = 'string';
 
     protected $fillable = [
-        'DNI', 'nombre', 'apellidos', 'email', 'telefono', 'pais',
-        'localidad', 'direccion', 'modo_pago', 'fecha_registrado',
+        'dni', 'nombre', 'apellidos', 'email', 'telefono', 'pais',
+        'localidad', 'direccion', 'modo_pago',
         'puntos_fidelidad', 'admin', 'password'
     ];
 
@@ -32,22 +32,21 @@ class User extends Authenticatable
 
     public function carrito()
     {
-        return $this->hasOne(Carrito::class, 'user_dni', 'DNI');
+        return $this->hasOne(Carrito::class, 'user_dni', 'dni');
     }
 
     // Métodos adicionales
-    public function getDNI(): string { return $this->DNI; }
+    public function getDNI(): string { return $this->dni; }
     public function getNombre(): string { return $this->nombre; }
     public function getApellidos(): string { return $this->apellidos; }
     public function getEMAIL(): string { return $this->email; }
     public function getTelefono(): string { return $this->telefono; }
     public function getDireccion(): string { return $this->direccion; }
     public function getModoPago(): string { return $this->modo_pago; }
-    public function getFecha(): string { return $this->fecha_registrado; }
     public function getPuntosFidelidad(): int { return $this->puntos_fidelidad; }
     public function getPassword(): string { return $this->password; }
 
-    public function setDNI(string $dni): void { $this->DNI = $dni; }
+    public function setDNI(string $dni): void { $this->dni = $dni; }
     public function setNombre(string $nombre): void { $this->nombre = $nombre; }
     public function setApellidos(string $apellidos): void { $this->apellidos = $apellidos; }
     public function setEMAIL(string $email): void { $this->email = $email; }

@@ -110,9 +110,9 @@ class Producto extends Model
         $this->stock = $new_cant;
     }
     
-    public function aplicar_descuento(): int
+    public function aplicar_descuento(): float
     {
-        return intval($this->precio - ($this->precio * ($this->descuento / 100)));
+        return $this->precio * (1 - $this->descuento / 100);
     }
     
     public function es_disponible(): bool
