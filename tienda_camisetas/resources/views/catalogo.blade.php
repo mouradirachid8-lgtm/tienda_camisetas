@@ -18,7 +18,7 @@
 
 <body>
     <!--<p>Bienvenido, {{ session('usuarioGlobal')->email ?? 'Invitado' }}</p>-->
-    <header class="bg-blue-900 shadow-lg shadow-blue-500/50 px-4 py-7">
+    {{-- <header class="bg-blue-900 shadow-lg shadow-blue-500/50 px-4 py-7">
         <div class="max-w-7xl mx-auto flex justify-between items-center space-x-6 relative">
             <!-- Icono a la izquierda -->
             <div class="absolute left-0 top-1/2 transform -translate-y-1/2">
@@ -63,7 +63,9 @@
                 @endguest
             </div>
         </div>
-    </header>
+    </header> --}}
+
+    @include('layouts.partials.header')
     <!-- Filtros -->
     <div class="max-w-7xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6">
         <h2 class="text-xl font-bold text-gray-900 mb-4">Filtrar productos</h2>
