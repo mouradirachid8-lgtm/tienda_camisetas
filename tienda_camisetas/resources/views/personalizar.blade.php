@@ -429,6 +429,7 @@
     </style>
 </head>
 <body>
+    @include('layouts.partials.header')
     <div class="main-container">
         <header>
             <h1>Diseñador de Camisetas de Fútbol</h1>
