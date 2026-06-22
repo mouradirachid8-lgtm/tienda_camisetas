@@ -1,7 +1,7 @@
 # Tienda de camisetas
+Tienda online de camisetas de futbol de las cuales tambien se permiten personalizaciones o de jugadores profesionales.
 
-
-## Guía temporal (Voy a buscar otras formas mientras tanto)
+## Guía temporal
 ### Para ejecutar el proyecto desde 0, seguid los siguientes pasos:
 1. Clonar el repositorio
 2. Añadir el archivo .env que se encuentra en la página principal del repositorio en el directorio del proyecto. (Voy a intentar tener el .env constantemente actualizado si se necesita hacer algún cambio)
